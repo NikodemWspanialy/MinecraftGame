@@ -7,8 +7,14 @@ using System.Threading.Tasks;
 
 namespace Hiscraft.Entities
 {
+	/// <summary>
+	/// static class that keeps all vertex collection (block, half block etc.)
+	/// </summary>
 	internal static class FacesVertexCollections
 	{
+		/// <summary>
+		/// Vertex collection for simple 1x1x1 block
+		/// </summary>
 		internal static readonly Dictionary<FacesEnum, List<Vector3>> BlocksVertexCollection = new()
 		{
 			{FacesEnum.FRONT, new List<Vector3>()

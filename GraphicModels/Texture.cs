@@ -8,9 +8,20 @@ using System.Threading.Tasks;
 
 namespace Hiscraft.GraphicModels
 {
+	/// <summary>
+	/// Texture class
+	/// </summary>
 	internal class Texture
 	{
+		/// <summary>
+		/// hadler for OpenGL
+		/// </summary>
 		int ID;
+		/// <summary>
+		/// ctor loading the image, ready to use
+		/// </summary>
+		/// <param name="imagePath">path to image</param>
+		/// <param name="textureUnit">specified the texture unit -> at this moment application use only unit = 0</param>
 		public Texture(string imagePath, TextureUnit textureUnit = TextureUnit.Texture0)
 		{
 			ID = GL.GenTexture();
@@ -28,17 +39,29 @@ namespace Hiscraft.GraphicModels
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Nearest);
 			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest);
 		}
+		/// <summary>
+		/// Bind texture for OpenGL
+		/// </summary>
 		public void Use()
 		{
 			GL.BindTexture(TextureTarget.Texture2D, ID);
 		}
+		/// <summary>
+		/// Getter for ID
+		/// </summary>
+		/// <returns>ID of texture</returns>
 		public int GetId() => ID;
 
+		/// <summary>
+		/// set texture bind to 0 in OpenGL
+		/// </summary>
 		public void Unbind()
 		{
 			GL.BindTexture(TextureTarget.Texture2D, 0);
 		}
-
+		/// <summary>
+		/// Delete texture form graphic card
+		/// </summary>
 		public void Delete()
 		{
 			GL.DeleteTexture(ID);

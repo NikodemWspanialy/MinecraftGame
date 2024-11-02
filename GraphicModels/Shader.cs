@@ -7,9 +7,20 @@ using System.Threading.Tasks;
 
 namespace Hiscraft.GraphicModels
 {
+	/// <summary>
+	/// Shader program class
+	/// </summary>
 	internal class Shader
 	{
+		/// <summary>
+		/// handler for OpenGL
+		/// </summary>
 		int ID;
+		/// <summary>
+		/// cotr -> loading shaders .vert and .frag
+		/// </summary>
+		/// <param name="vertPath">.vert shader path</param>
+		/// <param name="fragpath">.frag shader path</param>
 		public Shader(string vertPath, string fragpath)
 		{
 
@@ -59,41 +70,33 @@ namespace Hiscraft.GraphicModels
 			GL.DeleteShader(FragmentShader);
 			GL.DeleteShader(VertexShader);
 		}
+		/// <summary>
+		/// Getter for ID
+		/// </summary>
+		/// <returns>shader program ID</returns>
 		public int GetShaderId() => ID;
+		/// <summary>
+		/// Bind shader program in OpenGL
+		/// </summary>
 		public void Use()
 		{
 			GL.UseProgram(ID);
 		}
-
+		/// <summary>
+		/// Set ShaderProgram in OpenGL to 0
+		/// </summary>
 		public void Unbind()
 		{
 			GL.UseProgram(0);
 		}
-		private bool disposedValue = false;
 
-		protected virtual void Dispose(bool disposing)
+		/// <summary>
+		/// Delete shader program from graphics card
+		/// </summary>
+		/// <param name="disposing"></param>
+		public void Delete()
 		{
-			if (!disposedValue)
-			{
 				GL.DeleteProgram(ID);
-
-				disposedValue = true;
-			}
-		}
-
-		~Shader()
-		{
-			if (disposedValue == false)
-			{
-				Console.WriteLine("GPU Resource leak! Did you forget to call Dispose()?");
-			}
-		}
-
-
-		public void Dispose()
-		{
-			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

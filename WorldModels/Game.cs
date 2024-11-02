@@ -55,6 +55,7 @@ namespace Hiscraft.WorldModels
 		{
 			base.OnUnload();
 			chunk.Delete();
+			shader.Delete();
 
 		}
 		protected override void OnRenderFrame(FrameEventArgs args)

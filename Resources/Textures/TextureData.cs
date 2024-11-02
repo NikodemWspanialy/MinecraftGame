@@ -4,8 +4,14 @@ using Hiscraft.Entities;
 
 namespace Hiscraft.Resources.Textures
 {
+    /// <summary>
+    /// static class that hadle texture data
+    /// </summary>
     internal static class TextureData
     {
+        /// <summary>
+        /// blockUV keeps uvs for every block type
+        /// </summary>
         public static Dictionary<BlockType, Dictionary<FacesEnum, Vector2>> blocksUV = new Dictionary<BlockType, Dictionary<FacesEnum, Vector2>>()
         {
             {BlockType.Dirt, new Dictionary<FacesEnum, Vector2>()
