@@ -9,7 +9,7 @@ namespace Hiscraft.WorldModels
 	internal static class WorldConst
 	{
 		internal const int CHUNK_SIZE = 16;
-		internal const int HIGH = 32;
-		internal const int CHUNK_OFFSET = 5;
+		internal const int HIGH = 64;
+		internal const int CHUNK_OFFSET = 3;
 	}
 }
