@@ -40,7 +40,7 @@ namespace Hiscraft.WorldModels
 		public Camera(float width, float height, Vector3 position)
 		{
 			this.width = width;
-			this.width = height;
+			this.height = height;
 			this.position = position;
 		}
 		#endregion
