@@ -5,24 +5,33 @@ using Hiscraft.Resources.Textures;
 
 namespace Hiscraft.WorldModels
 {
-    internal class Block
+	/// <summary>
+	/// Block class represents a block  entity, it is hangle by chunk
+	/// zblock keeps it own position, texture uv and faces vertices
+	/// </summary>
+	internal class Block
 	{
-		public Vector3 position;
-		public BlockType type;
+		#region Private fields
+		/// <summary>
+		/// block unique position
+		/// </summary>
+		private Vector3 position;
+		/// <summary>
+		/// block type from enum
+		/// </summary>
+		private BlockType type;
+		/// <summary>
+		/// faces handle all faces (6) with its own position (transformed by position) and uv coord from texture book
+		/// </summary>
+		private Dictionary<FacesEnum, Face> faces;
+		#endregion
 
-		public Dictionary<Faces, FaceData> faces;
-
-		public Dictionary<Faces, List<Vector2>> blockUV = new Dictionary<Faces, List<Vector2>>()
-		{
-			{Faces.FRONT, new List<Vector2>() },
-			{Faces.BACK, new List<Vector2>() },
-			{Faces.LEFT, new List<Vector2>() },
-			{Faces.RIGHT, new List<Vector2>() },
-			{Faces.TOP, new List<Vector2>() },
-			{Faces.BOTTOM, new List<Vector2>() },
-		};
-
-
+		#region Constructor
+		/// <summary>
+		/// Only one ctor for Block class
+		/// </summary>
+		/// <param name="position"> blocks unique position</param>
+		/// <param name="blockType">block type from enum</param>
 		public Block(Vector3 position, BlockType blockType = BlockType.Empty)
 		{
 			type = blockType;
@@ -30,39 +39,47 @@ namespace Hiscraft.WorldModels
 
 			if (blockType != BlockType.Empty)
 			{
-				blockUV = FileHelper.GetUVsFromBook(TextureData.blockTypeUVCoord[blockType]);
+				var blockUV = FileHelper.GetUVsFromBook(TextureData.blocksUV[blockType]);
+
+				faces = new()
+				{
+					{FacesEnum.FRONT, new Face {
+						vertices = MoveToPosition(FacesVertexCollections.BlocksVertexCollection[FacesEnum.FRONT]),
+						uv = blockUV[FacesEnum.FRONT]
+						}
+					},
+					{FacesEnum.BACK, new Face {
+						vertices = MoveToPosition(FacesVertexCollections.BlocksVertexCollection[FacesEnum.BACK]),
+						uv = blockUV[FacesEnum.BACK]
+						}
+					},
+					{FacesEnum.LEFT, new Face {
+					vertices = MoveToPosition(FacesVertexCollections.BlocksVertexCollection[FacesEnum.LEFT]),
+					uv = blockUV[FacesEnum.LEFT]
+						} 
+					},
+					{FacesEnum.RIGHT, new Face {
+					vertices = MoveToPosition(FacesVertexCollections.BlocksVertexCollection[FacesEnum.RIGHT]),
+					uv = blockUV[FacesEnum.RIGHT]
+						} 
+					},
+					{FacesEnum.TOP, new Face {
+					vertices = MoveToPosition(FacesVertexCollections.BlocksVertexCollection[FacesEnum.TOP]),
+					uv = blockUV[FacesEnum.TOP]
+						} 
+					},
+					{FacesEnum.BOTTOM, new Face {
+					vertices = MoveToPosition(FacesVertexCollections.BlocksVertexCollection[FacesEnum.BOTTOM]),
+					uv = blockUV[FacesEnum.BOTTOM]
+						} 
+					},
+				};
 			}
-
-			faces = new Dictionary<Faces, FaceData>
-			{
-				{Faces.FRONT, new FaceData {
-					vertices = AddTransformedVertices(FaceDataRaw.rawVertexData[Faces.FRONT]),
-					uv = blockUV[Faces.FRONT]
-				} },
-				{Faces.BACK, new FaceData {
-					vertices = AddTransformedVertices(FaceDataRaw.rawVertexData[Faces.BACK]),
-					uv = blockUV[Faces.BACK]
-				} },
-				{Faces.LEFT, new FaceData {
-					vertices = AddTransformedVertices(FaceDataRaw.rawVertexData[Faces.LEFT]),
-					uv = blockUV[Faces.LEFT]
-				} },
-				{Faces.RIGHT, new FaceData {
-					vertices = AddTransformedVertices(FaceDataRaw.rawVertexData[Faces.RIGHT]),
-					uv = blockUV[Faces.RIGHT]
-				} },
-				{Faces.TOP, new FaceData {
-					vertices = AddTransformedVertices(FaceDataRaw.rawVertexData[Faces.TOP]),
-					uv = blockUV[Faces.TOP]
-				} },
-				{Faces.BOTTOM, new FaceData {
-					vertices = AddTransformedVertices(FaceDataRaw.rawVertexData[Faces.BOTTOM]),
-					uv = blockUV[Faces.BOTTOM]
-				} },
-
-			};
 		}
-		public List<Vector3> AddTransformedVertices(List<Vector3> vertices)
+		#endregion
+
+		#region private funcs
+		private List<Vector3> MoveToPosition(List<Vector3> vertices)
 		{
 			List<Vector3> transformedVertices = new List<Vector3>();
 			foreach (var vert in vertices)
@@ -71,9 +88,13 @@ namespace Hiscraft.WorldModels
 			}
 			return transformedVertices;
 		}
-		public FaceData GetFace(Faces face)
+		#endregion
+
+		#region public funcs
+		public Face GetFace(FacesEnum face)
 		{
 			return faces[face];
 		}
+		#endregion
 	}
 }

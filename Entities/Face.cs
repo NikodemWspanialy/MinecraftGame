@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 
 namespace Hiscraft.Entities
 {
-	internal class FaceData
+	/// <summary>
+	/// class handle verticles and texture UV
+	/// </summary>
+	internal class Face
 	{
 		public List<Vector3> vertices;
 		public List<Vector2> uv;

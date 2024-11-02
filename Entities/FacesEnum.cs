@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hiscraft.Entities
 {
-	internal enum Faces
+	internal enum FacesEnum
 	{
 		FRONT,
 		BACK,

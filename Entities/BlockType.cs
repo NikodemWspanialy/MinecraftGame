@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Hiscraft.Entities
 {
 	/// <summary>
-	/// All types of blocks 
+	/// All types of blocks defined
 	/// </summary>
 	internal enum BlockType
 	{

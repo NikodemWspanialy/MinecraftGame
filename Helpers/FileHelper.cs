@@ -10,13 +10,13 @@ namespace Hiscraft.Helpers
 {
 	internal static class FileHelper
 	{
-		internal static Dictionary<Faces, List<Vector2>> GetUVsFromBook(Dictionary<Faces, Vector2> coords)
+		internal static Dictionary<FacesEnum, List<Vector2>> GetUVsFromBook(Dictionary<FacesEnum, Vector2> coords)
 		{
-			Dictionary<Faces, List<Vector2>> faceData = new Dictionary<Faces, List<Vector2>>();
+			Dictionary<FacesEnum, List<Vector2>> faceUV = new Dictionary<FacesEnum, List<Vector2>>();
 
 			foreach (var faceCoord in coords)
 			{
-				faceData[faceCoord.Key] = new List<Vector2>()
+				faceUV[faceCoord.Key] = new List<Vector2>()
 				{
 					new Vector2((faceCoord.Value.X+1f)/16f, (faceCoord.Value.Y+1f)/16f),
 					new Vector2(faceCoord.Value.X/16f, (faceCoord.Value.Y+1f)/16f),
@@ -25,7 +25,7 @@ namespace Hiscraft.Helpers
 				};
 			}
 
-			return faceData;
+			return faceUV;
 		}
 		internal static string GetTexturePath(string name)
 		{

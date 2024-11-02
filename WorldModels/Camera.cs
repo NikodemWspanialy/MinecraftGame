@@ -11,41 +11,116 @@ namespace Hiscraft.WorldModels
 {
 	internal class Camera
 	{
-		// CONSTANTS
-		private float SPEED = 8f;
-		private float SCREENWIDTH;
-		private float SCREENHEIGHT;
-		private float SENSITIVITY = 180f;
-
-		// position vars
-		public Vector3 position;
-
-		Vector3 up = Vector3.UnitY;
-		Vector3 front = -Vector3.UnitZ;
-		Vector3 right = Vector3.UnitX;
-
-		// --- view rotations ---
-		private float pitch;
-		private float yaw = -90.0f;
-
+		#region private fields
+		private float width;
+		private float height;
+		private Vector3 position;
 		private bool firstMove = true;
 		public Vector2 lastPos;
+
+		private Vector3 up = Vector3.UnitY;
+		private Vector3 front = -Vector3.UnitZ;
+		private Vector3 right = Vector3.UnitX;
+		private float pitch;
+		private float yaw = -90.0f;
+		#endregion
+
+		#region const to extract from class
+		private float SPEED = 8f;
+		private float SENSITIVITY = 180f;
+		#endregion
+
+		#region constructor
+		/// <summary>
+		/// constructor for camera class 
+		/// </summary>
+		/// <param name="width"> screen width</param>
+		/// <param name="height">screen height</param>
+		/// <param name="position">start camera/main charactrer position</param>
 		public Camera(float width, float height, Vector3 position)
 		{
-			SCREENWIDTH = width;
-			SCREENHEIGHT = height;
+			this.width = width;
+			this.width = height;
 			this.position = position;
 		}
+		#endregion
 
+		#region public functions
+
+		/// <summary>
+		/// create for view matrix
+		/// </summary>
+		/// <returns>view matrix4</returns>
 		public Matrix4 GetViewMatrix()
 		{
 			return Matrix4.LookAt(position, position + front, up);
 		}
+		/// <summary>
+		/// creare projection matrix
+		/// </summary>
+		/// <returns>projection matrix4</returns>
 		public Matrix4 GetProjectionMatrix()
 		{
-			return Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45.0f), SCREENWIDTH / SCREENHEIGHT, 0.1f, 100.0f);
+			return Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45.0f), width / height, 0.1f, 100.0f);
 		}
 
+		/// <summary>
+		/// update camera position to controle state
+		/// </summary>
+		/// <param name="keyboardState">keyboard action</param>
+		/// <param name="mouseState">mouse action</param>
+		/// <param name="e">event form OpenTK to prevent lags</param>
+		public void Update(KeyboardState keyboardState, MouseState mouseState, FrameEventArgs e)
+		{
+
+			if (keyboardState.IsKeyDown(Keys.W))
+			{
+				position += front * SPEED * (float)e.Time;
+			}
+			if (keyboardState.IsKeyDown(Keys.A))
+			{
+				position -= right * SPEED * (float)e.Time;
+			}
+			if (keyboardState.IsKeyDown(Keys.S))
+			{
+				position -= front * SPEED * (float)e.Time;
+			}
+			if (keyboardState.IsKeyDown(Keys.D))
+			{
+				position += right * SPEED * (float)e.Time;
+			}
+
+			if (keyboardState.IsKeyDown(Keys.Space))
+			{
+				position.Y += SPEED * (float)e.Time;
+			}
+			if (keyboardState.IsKeyDown(Keys.LeftShift))
+			{
+				position.Y -= SPEED * (float)e.Time;
+			}
+
+			if (firstMove)
+			{
+				lastPos = new Vector2(mouseState.X, mouseState.Y);
+				firstMove = false;
+			}
+			else
+			{
+				var deltaX = mouseState.X - lastPos.X;
+				var deltaY = mouseState.Y - lastPos.Y;
+				lastPos = new Vector2(mouseState.X, mouseState.Y);
+
+				yaw += deltaX * SENSITIVITY * (float)e.Time;
+				pitch -= deltaY * SENSITIVITY * (float)e.Time;
+			}
+			UpdateVectors();
+		}
+		#endregion
+
+		#region private function
+		/// <summary>
+		/// Updating vectors
+		/// </summary>
 		private void UpdateVectors()
 		{
 			if (pitch > 89.0f)
@@ -67,55 +142,6 @@ namespace Hiscraft.WorldModels
 			right = Vector3.Normalize(Vector3.Cross(front, Vector3.UnitY));
 			up = Vector3.Normalize(Vector3.Cross(right, front));
 		}
-
-		public void InputController(KeyboardState input, MouseState mouse, FrameEventArgs e)
-		{
-
-			if (input.IsKeyDown(Keys.W))
-			{
-				position += front * SPEED * (float)e.Time;
-			}
-			if (input.IsKeyDown(Keys.A))
-			{
-				position -= right * SPEED * (float)e.Time;
-			}
-			if (input.IsKeyDown(Keys.S))
-			{
-				position -= front * SPEED * (float)e.Time;
-			}
-			if (input.IsKeyDown(Keys.D))
-			{
-				position += right * SPEED * (float)e.Time;
-			}
-
-			if (input.IsKeyDown(Keys.Space))
-			{
-				position.Y += SPEED * (float)e.Time;
-			}
-			if (input.IsKeyDown(Keys.LeftShift))
-			{
-				position.Y -= SPEED * (float)e.Time;
-			}
-
-			if (firstMove)
-			{
-				lastPos = new Vector2(mouse.X, mouse.Y);
-				firstMove = false;
-			}
-			else
-			{
-				var deltaX = mouse.X - lastPos.X;
-				var deltaY = mouse.Y - lastPos.Y;
-				lastPos = new Vector2(mouse.X, mouse.Y);
-
-				yaw += deltaX * SENSITIVITY * (float)e.Time;
-				pitch -= deltaY * SENSITIVITY * (float)e.Time;
-			}
-			UpdateVectors();
-		}
-		public void Update(KeyboardState input, MouseState mouse, FrameEventArgs e)
-		{
-			InputController(input, mouse, e);
-		}
+		#endregion
 	}
 }

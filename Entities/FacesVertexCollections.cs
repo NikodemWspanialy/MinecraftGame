@@ -7,46 +7,46 @@ using System.Threading.Tasks;
 
 namespace Hiscraft.Entities
 {
-	internal static class FaceDataRaw
+	internal static class FacesVertexCollections
 	{
-		internal static readonly Dictionary<Faces, List<Vector3>> rawVertexData = new Dictionary<Faces, List<Vector3>>
+		internal static readonly Dictionary<FacesEnum, List<Vector3>> BlocksVertexCollection = new()
 		{
-			{Faces.FRONT, new List<Vector3>()
+			{FacesEnum.FRONT, new List<Vector3>()
 			{
 				new Vector3(-0.5f, 0.5f, 0.5f), // topleft vert
                 new Vector3(0.5f, 0.5f, 0.5f), // topright vert
                 new Vector3(0.5f, -0.5f, 0.5f), // bottomright vert
                 new Vector3(-0.5f, -0.5f, 0.5f), // bottomleft vert
             } },
-			{Faces.BACK, new List<Vector3>()
+			{FacesEnum.BACK, new List<Vector3>()
 			{
 				new Vector3(0.5f, 0.5f, -0.5f), // topleft vert
                 new Vector3(-0.5f, 0.5f, -0.5f), // topright vert
                 new Vector3(-0.5f, -0.5f, -0.5f), // bottomright vert
                 new Vector3(0.5f, -0.5f, -0.5f), // bottomleft vert
             } },
-			{Faces.LEFT, new List<Vector3>()
+			{FacesEnum.LEFT, new List<Vector3>()
 			{
 				new Vector3(-0.5f, 0.5f, -0.5f), // topleft vert
                 new Vector3(-0.5f, 0.5f, 0.5f), // topright vert
                 new Vector3(-0.5f, -0.5f, 0.5f), // bottomright vert
                 new Vector3(-0.5f, -0.5f, -0.5f), // bottomleft vert
             } },
-			{Faces.RIGHT, new List<Vector3>()
+			{FacesEnum.RIGHT, new List<Vector3>()
 			{
 				new Vector3(0.5f, 0.5f, 0.5f), // topleft vert
                 new Vector3(0.5f, 0.5f, -0.5f), // topright vert
                 new Vector3(0.5f, -0.5f, -0.5f), // bottomright vert
                 new Vector3(0.5f, -0.5f, 0.5f), // bottomleft vert
             } },
-			{Faces.TOP, new List<Vector3>()
+			{FacesEnum.TOP, new List<Vector3>()
 			{
 				new Vector3(-0.5f, 0.5f, -0.5f), // topleft vert
                 new Vector3(0.5f, 0.5f, -0.5f), // topright vert
                 new Vector3(0.5f, 0.5f, 0.5f), // bottomright vert
                 new Vector3(-0.5f, 0.5f, 0.5f), // bottomleft vert
             } },
-			{Faces.BOTTOM, new List<Vector3>()
+			{FacesEnum.BOTTOM, new List<Vector3>()
 			{
 				new Vector3(-0.5f, -0.5f, 0.5f), // topleft vert
                 new Vector3(0.5f, -0.5f, 0.5f), // topright vert
