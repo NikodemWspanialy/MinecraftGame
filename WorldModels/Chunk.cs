@@ -11,21 +11,31 @@ using Hiscraft.WorldModels;
 using Hiscraft.GeneratingTerrain;
 using System.Diagnostics.CodeAnalysis;
 using Hiscraft.Helpers;
+using static System.Reflection.Metadata.BlobBuilder;
+using Hiscraft.Entities.BlockTypeEntities;
 
 namespace Hiscraft.WorldModels
 {
-	/// <summary>
-	/// chunk is main class in that keep blocks, but also graphics pipelines, it is responsible for optimization faces to draw
-	/// </summary>
-	internal class Chunk
+    /// <summary>
+    /// chunk is main class in that keep blocks, but also graphics pipelines, it is responsible for optimization faces to draw
+    /// </summary>
+    internal class Chunk
 	{
 		#region private fields
 		private Block[,,] blocks;
 		private List<Vector3> chunkVertices;
-		private List<Vector2> chunTextureUVs;
+		private List<Vector2> chunkTextureUVs;
 		private List<uint> chunkIndices;
 		private Vector3 position;
 		private uint indexCount;
+		private Vector2i chunkPosition;
+		#endregion
+
+		#region public properties
+		/// <summary>
+		/// chunk position getter
+		/// </summary>
+		public Vector2i ChunkPosition { get { return chunkPosition; } }
 		#endregion
 		
 		#region private graphics fields
@@ -35,21 +45,16 @@ namespace Hiscraft.WorldModels
 		private EBO chunkEBO;
 		private Texture texture;
 		#endregion
-		
-		#region const for chunk -> to extract to options class
 
-		const int SIZE = 16;
-		const int HIGH = 32;
-		#endregion
-		
 		#region constructor
 		public Chunk(int positionX, int positionZ)
 		{
-			this.position = new Vector3(positionX * SIZE, 0, positionZ * SIZE);
+			chunkPosition = new Vector2i(positionX, positionZ);
+			this.position = new Vector3(positionX * WorldConst.CHUNK_SIZE, 0, positionZ * WorldConst.CHUNK_SIZE);
 
-			blocks = new Block[SIZE, HIGH, SIZE];
+			blocks = new Block[WorldConst.CHUNK_SIZE, WorldConst.HIGH, WorldConst.CHUNK_SIZE];
 			chunkVertices = new List<Vector3>();
-			chunTextureUVs = new List<Vector2>();
+			chunkTextureUVs = new List<Vector2>();
 			chunkIndices = new List<uint>();
 
 			GenerateBlocks();
@@ -64,26 +69,39 @@ namespace Hiscraft.WorldModels
 		/// </summary>
 		private void GenerateBlocks()
 		{
-			for (int x = (int)position.X; x < (int)position.X + SIZE; x++)
+			int XtoINT = (int)position.X;
+			int ZtoINT = (int)position.Z;
+			for (int x = 0; x < WorldConst.CHUNK_SIZE; x++)
 			{
-				for (int y = 0; y < HIGH; y++)
+				for (int y = 0; y < WorldConst.HIGH; y++)
 				{
-					for (int z = 0; z < (int)position.Z + SIZE; z++)
+					for (int z = 0; z < WorldConst.CHUNK_SIZE; z++)
 					{
 						var type = Procedural1.Find(x, y, z);
 						if (type != BlockType.Empty)
 						{
-							Block block = new Block(new Vector3(x, y, z), type);
+							Block block = new Block(new Vector3(XtoINT + x,y,ZtoINT + z), type);
 							blocks[x, y, z] = block;
 						}
 					}
 				}
 			}
+			AddFacesToDraw();
+		}
+		/// <summary>
+		/// itterating for every block, and calling for it FindFaces to draw
+		/// </summary>
+		private void AddFacesToDraw()
+		{
+			chunkIndices.Clear();
+			chunkVertices.Clear();
+			chunkTextureUVs.Clear();
+
 			foreach (var block in blocks)
 			{
 				if (block != null)
 				{
-					AddFacesToDraw(block);
+					FindFacesToDraw(block);
 				}
 			}
 		}
@@ -91,33 +109,59 @@ namespace Hiscraft.WorldModels
 		/// optimalize amount of facesto draw, and adding them to lists of verticles and uvs
 		/// </summary>
 		/// <param name="block"></param>
-		private void AddFacesToDraw(Block block)
+		private void FindFacesToDraw(Block block)
 		{
-			var leftFaceData = block.GetFace(FacesEnum.LEFT);
-			chunkVertices.AddRange(leftFaceData.vertices);
-			chunTextureUVs.AddRange(leftFaceData.uv);
-			var rightFaceData = block.GetFace(FacesEnum.RIGHT);
-			chunkVertices.AddRange(rightFaceData.vertices);
-			chunTextureUVs.AddRange(rightFaceData.uv);
+			var x = (int)block.Position.X - (int)position.X; 
+			var y = (int)block.Position.Y;
+			var z = (int)block.Position.Z - (int)position.Z; 
+			int faceCounter = 0;
+			if (x == 0 || ShouldBeDrawAround(x - 1,y,z))
+			{
+				var leftChunkFace = block.GetFace(FacesEnum.LEFT);
+				chunkVertices.AddRange(leftChunkFace.vertices);
+				chunkTextureUVs.AddRange(leftChunkFace.uv);
+				++faceCounter;
+			}
+			if (x == WorldConst.CHUNK_SIZE - 1 || ShouldBeDrawAround(x + 1, y, z))
+			{
+				var rightChunkFace = block.GetFace(FacesEnum.RIGHT);
+				chunkVertices.AddRange(rightChunkFace.vertices);
+				chunkTextureUVs.AddRange(rightChunkFace.uv);
+				++faceCounter;
+			}
+			if (z == WorldConst.CHUNK_SIZE - 1 || ShouldBeDrawAround(x,y,z+1))
+			{
+				var frontChunkFace = block.GetFace(FacesEnum.FRONT);
+				chunkVertices.AddRange(frontChunkFace.vertices);
+				chunkTextureUVs.AddRange(frontChunkFace.uv);
+				++faceCounter;
+			}
+			if (z == 0 || ShouldBeDrawAround(x, y, z - 1))
+			{
+				var backChunkFace = block.GetFace(FacesEnum.BACK);
+				chunkVertices.AddRange(backChunkFace.vertices);
+				chunkTextureUVs.AddRange(backChunkFace.uv);
+				++faceCounter;
+			}
 
-			var frontFaceData = block.GetFace(FacesEnum.FRONT);
-			chunkVertices.AddRange(frontFaceData.vertices);
-			chunTextureUVs.AddRange(frontFaceData.uv);
+			if (y == WorldConst.HIGH- 1 || ShouldBeDrawAround(x,y+1,z))
+			{
+				var topChunkFace = block.GetFace(FacesEnum.TOP);
+				chunkVertices.AddRange(topChunkFace.vertices);
+				chunkTextureUVs.AddRange(topChunkFace.uv);
+				++faceCounter;
+			}
+			if (y == 0 || ShouldBeDrawAround(x,y-1,z))
+			{
 
-			var backFaceData = block.GetFace(FacesEnum.BACK);
-			chunkVertices.AddRange(backFaceData.vertices);
-			chunTextureUVs.AddRange(backFaceData.uv);
-
-			var topFaceData = block.GetFace(FacesEnum.TOP);
-			chunkVertices.AddRange(topFaceData.vertices);
-			chunTextureUVs.AddRange(topFaceData.uv);
-
-			var bottomFaceData = block.GetFace(FacesEnum.BOTTOM);
-			chunkVertices.AddRange(bottomFaceData.vertices);
-			chunTextureUVs.AddRange(bottomFaceData.uv);
+				var bottomChunkFace = block.GetFace(FacesEnum.BOTTOM);
+				chunkVertices.AddRange(bottomChunkFace.vertices);
+				chunkTextureUVs.AddRange(bottomChunkFace.uv);
+				++faceCounter;
+			}
 
 
-			AddIndices(6);
+			AddIndices(faceCounter);
 		}
 		/// <summary>
 		/// adding indices of square devided to 2 triangles in path 0,1,2,2,3,0
@@ -138,6 +182,19 @@ namespace Hiscraft.WorldModels
 			}
 		}
 		/// <summary>
+		/// check block if it is null or no covering whole block
+		/// </summary>
+		/// <param name="x">X</param>
+		/// <param name="y">Y</param>
+		/// <param name="z">Z</param>
+		/// <returns>should be draw block next to or not</returns>
+		private bool ShouldBeDrawAround(int x, int y, int z)
+		{
+			if (blocks[x,y,z] is null) { return true; }
+			if (BlockTypeInfo.noCoveringBlocks.Contains(blocks[x, y, z].BlockType)) { return true; }
+			return false;
+		}
+		/// <summary>
 		/// creating pipelines for openGL
 		/// </summary>
 		private void PreparePipelines()
@@ -149,7 +206,7 @@ namespace Hiscraft.WorldModels
 			chunkVertexVBO.Use();
 			chunkVAO.ConnectVBO(0, 3, chunkVertexVBO);
 
-			chunkUVVBO = new VBO(chunTextureUVs);
+			chunkUVVBO = new VBO(chunkTextureUVs);
 			chunkUVVBO.Use();
 			chunkVAO.ConnectVBO(1, 2, chunkUVVBO);
 
@@ -165,7 +222,7 @@ namespace Hiscraft.WorldModels
 		/// Function that draw the whole chunk
 		/// </summary>
 		/// <param name="program">as a parameter it takes shader prgoram</param>
-		public void Render(Shader shader) 
+		public void Render(Shader shader)
 		{
 			//bind pipeliens
 			shader.Use();

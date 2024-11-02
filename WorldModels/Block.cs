@@ -2,14 +2,15 @@
 using OpenTK.Mathematics;
 using Hiscraft.Helpers;
 using Hiscraft.Resources.Textures;
+using Hiscraft.Entities.BlockTypeEntities;
 
 namespace Hiscraft.WorldModels
 {
-	/// <summary>
-	/// Block class represents a block  entity, it is hangle by chunk
-	/// zblock keeps it own position, texture uv and faces vertices
-	/// </summary>
-	internal class Block
+    /// <summary>
+    /// Block class represents a block  entity, it is hangle by chunk
+    /// zblock keeps it own position, texture uv and faces vertices
+    /// </summary>
+    internal class Block
 	{
 		#region Private fields
 		/// <summary>
@@ -24,6 +25,19 @@ namespace Hiscraft.WorldModels
 		/// faces handle all faces (6) with its own position (transformed by position) and uv coord from texture book
 		/// </summary>
 		private Dictionary<FacesEnum, Face> faces;
+		#endregion
+
+		#region Public prop
+
+		/// <summary>
+		/// Position property only for getting
+		/// </summary>
+		public Vector3 Position {  get { return position; } }
+
+		/// <summary>
+		/// Blok type property only for getting
+		/// </summary>
+		public BlockType BlockType {  get { return type; } }
 		#endregion
 
 		#region Constructor

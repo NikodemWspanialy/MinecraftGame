@@ -7,6 +7,7 @@ using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,22 +16,82 @@ namespace Hiscraft.WorldModels
 {
 	internal class Game : GameWindow
 	{
-		// set of vertices to draw the triangle with (x,y,z) for each vertex
 
-		Chunk chunk;
-		Shader shader;
-		Camera camera;
+		#region game elements
+		private List<Chunk> allChunks;
+		private List<Chunk> renderChunks;
+		private Camera camera;
+		private Vector2i lastPlayerChunk = new Vector2i(0, 0);
+		#endregion
 
-		float yRot = 0f;
+		#region privates fields
+		private int width, height;
+		private Shader shader;
+		#endregion
 
-		int width, height;
+
+		#region ctor
 		public Game(int width, int height) : base(GameWindowSettings.Default, NativeWindowSettings.Default)
 		{
 			this.width = width;
 			this.height = height;
+			renderChunks = new List<Chunk>();
+			allChunks = new List<Chunk>();
 
 			CenterWindow(new Vector2i(width, height));
 		}
+		#endregion
+
+		#region private methods to managment game
+		/// <summary>
+		/// Prepare first chunks
+		/// </summary>
+		private void PrepareChunks(int chankX, int chankZ)
+		{
+			Stopwatch stopwatch = Stopwatch.StartNew();
+			for (int x = chankX - WorldConst.CHUNK_OFFSET; x < chankX + WorldConst.CHUNK_OFFSET; ++x)
+			{
+				for (int z = chankZ - WorldConst.CHUNK_OFFSET; z < chankZ + WorldConst.CHUNK_OFFSET; ++z)
+				{
+					stopwatch.Restart();
+					var chunk = allChunks.FirstOrDefault(ch => ch.ChunkPosition.X == x && ch.ChunkPosition.Y == z);
+					if (chunk is not null)
+					{
+						renderChunks.Add(chunk);
+					}
+					else
+					{
+						chunk = new Chunk(x, z);
+						renderChunks.Add(chunk);
+						allChunks.Add(chunk);
+					}
+					stopwatch.Stop();
+                    Console.WriteLine($" chunk x = {x}|z = {z} generating time = {stopwatch.ElapsedMilliseconds} ms");
+				}
+			}
+
+		}
+
+		/// <summary>
+		/// check camera position chunk and call creating new chunk 
+		/// </summary>
+		private void CheckChunk()
+		{
+			var cameraPos = camera.Position;
+			int ChunkX = ((int)cameraPos.X) / WorldConst.CHUNK_SIZE;
+			int ChunkY = ((int)cameraPos.Z) / WorldConst.CHUNK_SIZE;
+			if (lastPlayerChunk.X != ChunkX || lastPlayerChunk.Y != ChunkY)
+			{
+				PrepareChunks(ChunkX, ChunkY);
+				lastPlayerChunk.X = ChunkX;
+				lastPlayerChunk.Y = ChunkY;
+
+			}
+			return;
+		}
+
+		#endregion
+		#region everride methods
 		protected override void OnResize(ResizeEventArgs e)
 		{
 			base.OnResize(e);
@@ -43,7 +104,9 @@ namespace Hiscraft.WorldModels
 		{
 			base.OnLoad();
 
-			chunk = new Chunk(0,0);
+			PrepareChunks(lastPlayerChunk.X, lastPlayerChunk.Y);
+			allChunks = renderChunks;
+
 			shader = new Shader(FileHelper.GetShaderPath("Default.vert"), FileHelper.GetShaderPath("Default.frag"));
 
 			GL.Enable(EnableCap.DepthTest);
@@ -54,7 +117,10 @@ namespace Hiscraft.WorldModels
 		protected override void OnUnload()
 		{
 			base.OnUnload();
-			chunk.Delete();
+			foreach (var chunk in allChunks)
+			{
+				chunk.Delete();
+			}
 			shader.Delete();
 
 		}
@@ -77,7 +143,10 @@ namespace Hiscraft.WorldModels
 			GL.UniformMatrix4(viewLocation, true, ref view);
 			GL.UniformMatrix4(projectionLocation, true, ref projection);
 
-			chunk.Render(shader);
+			foreach (var chunk in renderChunks)
+			{
+				chunk.Render(shader);
+			}
 
 			Context.SwapBuffers();
 
@@ -90,6 +159,7 @@ namespace Hiscraft.WorldModels
 
 			base.OnUpdateFrame(args);
 			camera.Update(input, mouse, args);
+			CheckChunk();
 		}
 		protected override void OnKeyDown(KeyboardKeyEventArgs e)
 		{
@@ -99,6 +169,6 @@ namespace Hiscraft.WorldModels
 			}
 		}
 
-
+		#endregion
 	}
 }

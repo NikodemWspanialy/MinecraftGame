@@ -30,6 +30,14 @@ namespace Hiscraft.WorldModels
 		private float SENSITIVITY = 180f;
 		#endregion
 
+		#region properties
+		/// <summary>
+		/// position getter
+		/// </summary>
+		public Vector3 Position { get { return position; } }
+
+		#endregion
+
 		#region constructor
 		/// <summary>
 		/// constructor for camera class 

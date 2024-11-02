@@ -1,6 +1,7 @@
 ﻿
 using OpenTK.Mathematics;
 using Hiscraft.Entities;
+using Hiscraft.Entities.BlockTypeEntities;
 
 namespace Hiscraft.Resources.Textures
 {
@@ -14,7 +15,17 @@ namespace Hiscraft.Resources.Textures
         /// </summary>
         public static Dictionary<BlockType, Dictionary<FacesEnum, Vector2>> blocksUV = new Dictionary<BlockType, Dictionary<FacesEnum, Vector2>>()
         {
-            {BlockType.Dirt, new Dictionary<FacesEnum, Vector2>()
+			{BlockType.Bedrock, new Dictionary<FacesEnum, Vector2>()
+				{
+					{FacesEnum.FRONT, new Vector2(1f, 14f) },
+					{FacesEnum.LEFT, new Vector2(1f, 14f) },
+					{FacesEnum.RIGHT, new Vector2(1f, 14f) },
+					{FacesEnum.BACK, new Vector2(1f, 14f) },
+					{FacesEnum.TOP, new Vector2(1f, 14f) },
+					{FacesEnum.BOTTOM, new Vector2(1f, 14f) },
+				}
+			},
+			{BlockType.Dirt, new Dictionary<FacesEnum, Vector2>()
                 {
                     {FacesEnum.FRONT, new Vector2(2f, 15f) },
                     {FacesEnum.LEFT, new Vector2(2f, 15f) },
