@@ -13,27 +13,24 @@ namespace Hiscraft.GeneratingTerrain
 	internal static class Procedural1
 	{
 		private const float Scale = 0.05f; // Skalowanie szumu Simplex, kontroluje wygładzenie terenu
-		private const int MaxHeight = 64; // Maksymalna wysokość terenu
 		internal static BlockType Find(int x, int y, int z)
 		{
 			if (y == 0)
 				return BlockType.Bedrock;
 
-			// Ustal wysokość terenu na podstawie szumu Simplex
-			int terrainHeight = (int)((Noise.CalcPixel2D(x, z, Scale) / 255.0f) * MaxHeight);
+			int terrainHeight = (int)((Noise.CalcPixel2D(x, z, Scale) / 255.0f) * WorldConst.HIGH);
 
-			// Ustal typ bloku na podstawie wysokości terenu i aktualnej wysokości y
 			if (y < terrainHeight - 4)
 			{
-				return BlockType.Stone; // Głębsze warstwy to kamień
+				return BlockType.Stone; 
 			}
 			else if (y < terrainHeight)
 			{
-				return BlockType.Dirt; // Warstwa ziemi
+				return BlockType.Dirt; 
 			}
 			else
 			{
-				return BlockType.Empty; // Pusta przestrzeń nad ziemią
+				return BlockType.Empty;
 			}
 		}
 	}
