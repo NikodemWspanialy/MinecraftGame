@@ -77,7 +77,7 @@ namespace Hiscraft.WorldModels
 				{
 					for (int z = 0; z < WorldConst.CHUNK_SIZE; z++)
 					{
-						var type = Procedural1.Find(x, y, z);
+						var type = Procedural1.Find(XtoINT + x, y, ZtoINT + z);
 						if (type != BlockType.Empty)
 						{
 							Block block = new Block(new Vector3(XtoINT + x,y,ZtoINT + z), type);

@@ -14,6 +14,8 @@ namespace Hiscraft.Entities.BlockTypeEntities
         Empty,
         Dirt,
         Stone,
-        Bedrock
-    }
+        Bedrock,
+		Grass,
+        Water,
+	}
 }
