@@ -12,7 +12,7 @@ namespace Hiscraft.GeneratingTerrain
 {
 	internal static class Procedural1
 	{
-		private const float Scale = 0.005f; // Skalowanie szumu Simplex, kontroluje wygładzenie terenu
+		private const float Scale = 0.005f; 
 		internal static BlockType Find(int x, int y, int z)
 		{
 			if (y == 0)

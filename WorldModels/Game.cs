@@ -49,9 +49,9 @@ namespace Hiscraft.WorldModels
 		private void PrepareChunks(int chankX, int chankZ)
 		{
 			Stopwatch stopwatch = Stopwatch.StartNew();
-			for (int x = chankX - WorldConst.CHUNK_OFFSET; x < chankX + WorldConst.CHUNK_OFFSET; ++x)
+			for (int x = chankX - WorldConst.CHUNK_OFFSET; x <= chankX + WorldConst.CHUNK_OFFSET; ++x)
 			{
-				for (int z = chankZ - WorldConst.CHUNK_OFFSET; z < chankZ + WorldConst.CHUNK_OFFSET; ++z)
+				for (int z = chankZ - WorldConst.CHUNK_OFFSET; z <= chankZ + WorldConst.CHUNK_OFFSET; ++z)
 				{
 					stopwatch.Restart();
 					var chunk = allChunks.FirstOrDefault(ch => ch.ChunkPosition.X == x && ch.ChunkPosition.Y == z);
