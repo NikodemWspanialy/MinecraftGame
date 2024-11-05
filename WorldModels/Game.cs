@@ -1,5 +1,6 @@
 ﻿using Hiscraft.GraphicModels;
 using Hiscraft.Helpers;
+using Hiscraft.Threads;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
@@ -44,14 +45,18 @@ namespace Hiscraft.WorldModels
 
 		#region private methods to managment game
 		/// <summary>
-		/// Prepare first chunks
+		/// Initialize first chunks
 		/// </summary>
-		private void PrepareChunks(int chankX, int chankZ)
+		/// <param name="chankX"></param>
+		/// <param name="chankZ"></param>
+		private void InitChunks()
 		{
+			Console.WriteLine($"Init chunks");
+			var newRenderMap = new List<Chunk>();
 			Stopwatch stopwatch = Stopwatch.StartNew();
-			for (int x = chankX - WorldConst.CHUNK_OFFSET; x <= chankX + WorldConst.CHUNK_OFFSET; ++x)
+			for (int x = -WorldConst.CHUNK_OFFSET; x <= +WorldConst.CHUNK_OFFSET; ++x)
 			{
-				for (int z = chankZ - WorldConst.CHUNK_OFFSET; z <= chankZ + WorldConst.CHUNK_OFFSET; ++z)
+				for (int z = -WorldConst.CHUNK_OFFSET; z <= +WorldConst.CHUNK_OFFSET; ++z)
 				{
 					stopwatch.Restart();
 					var chunk = allChunks.FirstOrDefault(ch => ch.ChunkPosition.X == x && ch.ChunkPosition.Y == z);
@@ -66,7 +71,55 @@ namespace Hiscraft.WorldModels
 						allChunks.Add(chunk);
 					}
 					stopwatch.Stop();
-                    Console.WriteLine($" chunk x = {x}|z = {z} generating time = {stopwatch.ElapsedMilliseconds} ms");
+					Console.WriteLine($" chunk x = {x}|z = {z} generating time = {stopwatch.ElapsedMilliseconds} ms");
+				}
+			}
+			Console.Clear();
+			Console.WriteLine("Generating in time frame rendering");
+
+		}
+
+		/// <summary>
+		/// Prepare chunks
+		/// </summary>
+		private async Task PrepareChunks(int chankX, int chankZ)
+		{
+			await Task.Yield();
+			Console.WriteLine($"Creting chunks is center of {chankX}|{chankZ} on {DateTime.Now.Ticks}");
+			var newRenderMap = new List<Chunk>();
+			for (int x = chankX - WorldConst.CHUNK_OFFSET; x <= chankX + WorldConst.CHUNK_OFFSET; ++x)
+			{
+				for (int z = chankZ - WorldConst.CHUNK_OFFSET; z <= chankZ + WorldConst.CHUNK_OFFSET; ++z)
+				{
+					await Task.Run(() =>
+					{
+						 int copiedX = x;
+						int copiedZ = z;
+						Chunk chunk = null!;
+						lock (ThreadManager.lockerAllList)
+						{
+							chunk = allChunks.FirstOrDefault(c => c.ChunkPosition.X == copiedX && c.ChunkPosition.Y == copiedZ);
+						}
+						if (chunk is null)
+						{
+							chunk = new Chunk(copiedX, copiedZ);
+							lock (ThreadManager.lockerAllList)
+							{
+								allChunks.Add(chunk);
+							}
+							Console.WriteLine($"Creting chunk {copiedX}|{copiedZ}");
+						}
+						else
+						{
+							Console.WriteLine($"Taking chunk {copiedX}|{copiedZ}");
+						}
+						newRenderMap.Add(chunk);
+
+						lock (ThreadManager.lockerRenderList)
+						{
+							renderChunks.Add(chunk);
+						}
+					});
 				}
 			}
 
@@ -104,8 +157,7 @@ namespace Hiscraft.WorldModels
 		{
 			base.OnLoad();
 
-			PrepareChunks(lastPlayerChunk.X, lastPlayerChunk.Y);
-			allChunks = renderChunks;
+			InitChunks();
 
 			shader = new Shader(FileHelper.GetShaderPath("Default.vert"), FileHelper.GetShaderPath("Default.frag"));
 
@@ -142,18 +194,36 @@ namespace Hiscraft.WorldModels
 			GL.UniformMatrix4(modelLocation, true, ref model);
 			GL.UniformMatrix4(viewLocation, true, ref view);
 			GL.UniformMatrix4(projectionLocation, true, ref projection);
-
-			foreach (var chunk in renderChunks)
+			lock (ThreadManager.lockerRenderList)
 			{
-				chunk.Render(shader);
+				foreach (var chunk in renderChunks)
+				{
+					if (chunk.IsReady)
+					{
+
+						chunk.Render(shader);
+					}
+				}
 			}
-
 			Context.SwapBuffers();
-
-			base.OnRenderFrame(args);
 		}
 		protected override void OnUpdateFrame(FrameEventArgs args)
 		{
+			lock (ThreadManager.locker)
+			{
+				while (true)
+				{
+
+					Action action;
+					var result = ThreadManager.proszeZadziałaj.TryDequeue(out action);
+					if (result)
+					{
+						action?.Invoke();
+						continue;
+					}
+					break;
+				}
+			}
 			MouseState mouse = MouseState;
 			KeyboardState input = KeyboardState;
 

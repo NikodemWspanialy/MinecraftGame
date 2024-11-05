@@ -13,6 +13,7 @@ using System.Diagnostics.CodeAnalysis;
 using Hiscraft.Helpers;
 using static System.Reflection.Metadata.BlobBuilder;
 using Hiscraft.Entities.BlockTypeEntities;
+using Hiscraft.Threads;
 
 namespace Hiscraft.WorldModels
 {
@@ -21,6 +22,7 @@ namespace Hiscraft.WorldModels
     /// </summary>
     internal class Chunk
 	{
+		public bool IsReady = false;
 		#region private fields
 		private Block[,,] blocks;
 		private List<Vector3> chunkVertices;
@@ -199,20 +201,28 @@ namespace Hiscraft.WorldModels
 		/// </summary>
 		private void PreparePipelines()
 		{
-			chunkVAO = new VAO();
-			chunkVAO.Use();
+			lock (ThreadManager.locker)
+			{
+			ThreadManager.proszeZadziałaj.Enqueue(() =>
+			{
+                Console.WriteLine($"Wykonuje sie dlatego muli {position.X}|{position.Z}");
+				chunkVAO = new VAO();
+				chunkVAO.Use();
 
-			chunkVertexVBO = new VBO(chunkVertices);
-			chunkVertexVBO.Use();
-			chunkVAO.ConnectVBO(0, 3, chunkVertexVBO);
+				chunkVertexVBO = new VBO(chunkVertices);
+				chunkVertexVBO.Use();
+				chunkVAO.ConnectVBO(0, 3, chunkVertexVBO);
 
-			chunkUVVBO = new VBO(chunkTextureUVs);
-			chunkUVVBO.Use();
-			chunkVAO.ConnectVBO(1, 2, chunkUVVBO);
+				chunkUVVBO = new VBO(chunkTextureUVs);
+				chunkUVVBO.Use();
+				chunkVAO.ConnectVBO(1, 2, chunkUVVBO);
 
-			chunkEBO = new EBO(chunkIndices);
+				chunkEBO = new EBO(chunkIndices);
 
-			texture = new Texture(FileHelper.GetTexturePath("TextureBook.png"));
+				texture = new Texture(FileHelper.GetTexturePath("TextureBook.png"));
+				IsReady = true;
+			});
+			}
 		} // take data and process it for rendering
 		#endregion
 
@@ -225,6 +235,9 @@ namespace Hiscraft.WorldModels
 		public void Render(Shader shader)
 		{
 			//bind pipeliens
+			lock (ThreadManager.locker)
+			{
+
 			shader.Use();
 			chunkVAO.Use();
 			chunkEBO.Use();
@@ -235,6 +248,7 @@ namespace Hiscraft.WorldModels
 			chunkEBO.Unbind();
 			chunkVAO.Unbind();
 			texture.Unbind();
+			}
 
 		}
 
