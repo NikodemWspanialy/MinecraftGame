@@ -13,5 +13,10 @@ namespace Hiscraft.Entities.BlockTypeEntities
 		{
 			BlockType.Empty,
 		};
+		internal static List<BlockType> alwaysDrawBlocks = new()
+		{
+			BlockType.Coal,
+			BlockType.Diamond,
+		};
 	}
 }

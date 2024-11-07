@@ -121,28 +121,30 @@ namespace Hiscraft.WorldModels
 			var y = (int)block.Position.Y;
 			var z = (int)block.Position.Z - (int)position.Z; 
 			int faceCounter = 0;
-			if (x == 0 || ShouldBeDrawAround(x - 1,y,z))
+			bool DrawAllFaces = ShouldBeAlwaysDraw(x, y, z);
+
+			if (DrawAllFaces || x == 0 || ShouldBeDrawAround(x - 1,y,z))
 			{
 				var leftChunkFace = block.GetFace(FacesEnum.LEFT);
 				chunkVertices.AddRange(leftChunkFace.vertices);
 				chunkTextureUVs.AddRange(leftChunkFace.uv);
 				++faceCounter;
 			}
-			if (x == WorldConst.CHUNK_SIZE - 1 || ShouldBeDrawAround(x + 1, y, z))
+			if (DrawAllFaces || x == WorldConst.CHUNK_SIZE - 1 || ShouldBeDrawAround(x + 1, y, z))
 			{
 				var rightChunkFace = block.GetFace(FacesEnum.RIGHT);
 				chunkVertices.AddRange(rightChunkFace.vertices);
 				chunkTextureUVs.AddRange(rightChunkFace.uv);
 				++faceCounter;
 			}
-			if (z == WorldConst.CHUNK_SIZE - 1 || ShouldBeDrawAround(x,y,z+1))
+			if (DrawAllFaces || z == WorldConst.CHUNK_SIZE - 1 || ShouldBeDrawAround(x,y,z+1))
 			{
 				var frontChunkFace = block.GetFace(FacesEnum.FRONT);
 				chunkVertices.AddRange(frontChunkFace.vertices);
 				chunkTextureUVs.AddRange(frontChunkFace.uv);
 				++faceCounter;
 			}
-			if (z == 0 || ShouldBeDrawAround(x, y, z - 1))
+			if (DrawAllFaces || z == 0 || ShouldBeDrawAround(x, y, z - 1))
 			{
 				var backChunkFace = block.GetFace(FacesEnum.BACK);
 				chunkVertices.AddRange(backChunkFace.vertices);
@@ -150,14 +152,14 @@ namespace Hiscraft.WorldModels
 				++faceCounter;
 			}
 
-			if (y == WorldConst.HIGH- 1 || ShouldBeDrawAround(x,y+1,z))
+			if (DrawAllFaces || y == WorldConst.HIGH- 1 || ShouldBeDrawAround(x,y+1,z))
 			{
 				var topChunkFace = block.GetFace(FacesEnum.TOP);
 				chunkVertices.AddRange(topChunkFace.vertices);
 				chunkTextureUVs.AddRange(topChunkFace.uv);
 				++faceCounter;
 			}
-			if (y == 0 || ShouldBeDrawAround(x,y-1,z))
+			if (DrawAllFaces || y == 0 || ShouldBeDrawAround(x,y-1,z))
 			{
 
 				var bottomChunkFace = block.GetFace(FacesEnum.BOTTOM);
@@ -198,6 +200,19 @@ namespace Hiscraft.WorldModels
 		{
 			if (blocks[x,y,z] is null) { return true; }
 			if (BlockTypeInfo.noCoveringBlocks.Contains(blocks[x, y, z].BlockType)) { return true; }
+			return false;
+		}
+
+		/// <summary>
+		/// Check if block should be always draw
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="z"></param>
+		/// <returns></returns>
+		private bool ShouldBeAlwaysDraw(int x, int y, int z)
+		{
+			if (BlockTypeInfo.alwaysDrawBlocks.Contains(blocks[x, y, z].BlockType)){ return true; }
 			return false;
 		}
 		/// <summary>
