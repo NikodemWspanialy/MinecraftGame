@@ -17,5 +17,10 @@ namespace Hiscraft.Entities.BlockTypeEntities
         Bedrock,
 		Grass,
         Water,
+        Sand,
+        Snow,
+        Coal,
+        Diamond,
+        Pumpkin,
 	}
 }
