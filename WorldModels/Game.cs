@@ -78,7 +78,7 @@ namespace Hiscraft.WorldModels
 		}
 
 		/// <summary>
-		/// Prepare chunks
+		/// Prepare new chunks after changing a camera position 
 		/// </summary>
 		private async Task PrepareChunks(int chankX, int chankZ)
 		{
@@ -88,6 +88,7 @@ namespace Hiscraft.WorldModels
 			{
 				for (int z = chankZ - WorldConst.CHUNK_OFFSET; z <= chankZ + WorldConst.CHUNK_OFFSET; ++z)
 				{
+					Thread.Sleep(50);
 					await Task.Run(() =>
 					{
 						int copiedX = x;
@@ -104,7 +105,7 @@ namespace Hiscraft.WorldModels
 							{
 								allChunks.Add(chunk);
 							}
-							ConsoleWriter.Write($"Creating chunk {copiedX}|{copiedZ}", ConsoleColor.Red, ConsoleColor.Green);
+							//ConsoleWriter.Write($"Creating chunk {copiedX}|{copiedZ}", ConsoleColor.Red, ConsoleColor.Green);
 							lock (ThreadManager.lockerRenderList)
 							{
 								renderChunks.Add(chunk);
@@ -113,8 +114,8 @@ namespace Hiscraft.WorldModels
 						else
 						{
 							ConsoleWriter.Write($"Chunk exists already {copiedX}|{copiedZ}", ConsoleColor.Blue, ConsoleColor.Green);
+							//docelowo tez dodawanie ale to musialbym najpierw usuwac XDDD
 						}
-						//docelowo tez dodawanie ale to musialbym najpierw usuwac XDDD
 					});
 				}
 			}
@@ -207,17 +208,11 @@ namespace Hiscraft.WorldModels
 		{
 			lock (ThreadManager.locker)
 			{
-				while (true)
+				Action action;
+				var result = ThreadManager.proszeZadziałaj.TryDequeue(out action);
+				if (result)
 				{
-
-					Action action;
-					var result = ThreadManager.proszeZadziałaj.TryDequeue(out action);
-					if (result)
-					{
-						action?.Invoke();
-						continue;
-					}
-					break;
+					action?.Invoke();
 				}
 			}
 			MouseState mouse = MouseState;

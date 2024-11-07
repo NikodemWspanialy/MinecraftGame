@@ -14,6 +14,7 @@ using Hiscraft.Helpers;
 using static System.Reflection.Metadata.BlobBuilder;
 using Hiscraft.Entities.BlockTypeEntities;
 using Hiscraft.Threads;
+using System.Diagnostics;
 
 namespace Hiscraft.WorldModels
 {
@@ -51,6 +52,7 @@ namespace Hiscraft.WorldModels
 		#region constructor
 		public Chunk(int positionX, int positionZ)
 		{
+			Stopwatch sw = Stopwatch.StartNew();
 			chunkPosition = new Vector2i(positionX, positionZ);
 			this.position = new Vector3(positionX * WorldConst.CHUNK_SIZE, 0, positionZ * WorldConst.CHUNK_SIZE);
 
@@ -61,6 +63,8 @@ namespace Hiscraft.WorldModels
 
 			GenerateBlocks();
 			PreparePipelines();
+			sw.Stop();
+			ConsoleWriter.Write($"Creating chunk {chunkPosition.X}|{chunkPosition.Y} in time {sw.ElapsedMilliseconds}", ConsoleColor.Red, ConsoleColor.Green);
 		}
 		#endregion
 
@@ -205,8 +209,7 @@ namespace Hiscraft.WorldModels
 			{
 			ThreadManager.proszeZadziałaj.Enqueue(() =>
 			{
-				ConsoleWriter.Write($"Prepare chunks pipelines for {position.X}|{position.Z}", ConsoleColor.White, ConsoleColor.Blue);
-
+				Stopwatch stopwatch = Stopwatch.StartNew();
 				chunkVAO = new VAO();
 				chunkVAO.Use();
 
@@ -221,6 +224,8 @@ namespace Hiscraft.WorldModels
 				chunkEBO = new EBO(chunkIndices);
 
 				texture = new Texture(FileHelper.GetTexturePath("TextureBook.png"));
+				stopwatch.Stop();
+				ConsoleWriter.Write($"Prepare chunks pipelines for {position.X}|{position.Z} in time {stopwatch.ElapsedMilliseconds}", ConsoleColor.White, ConsoleColor.Blue);
 				IsReady = true;
 			});
 			}
@@ -257,11 +262,11 @@ namespace Hiscraft.WorldModels
 		/// </summary>
 		public void Delete()
 		{
-			chunkVAO.Delete();
-			chunkVertexVBO.Delete();
-			chunkUVVBO.Delete();
-			chunkEBO.Delete();
-			texture.Delete();
+			chunkVAO?.Delete();
+			chunkVertexVBO?.Delete();
+			chunkUVVBO?.Delete();
+			chunkEBO?.Delete();
+			texture?.Delete();
 		}
 		#endregion
 	}

@@ -1,4 +1,5 @@
 ﻿using Hiscraft.Entities;
+using Hiscraft.WorldModels;
 using OpenTK.Mathematics;
 using System;
 using System.Collections.Generic;
@@ -43,7 +44,7 @@ namespace Hiscraft.Helpers
 		internal static string GetTexturePath(string name)
 		{
 
-			return "../../../Resources/Textures/" + name;
+			return WorldConst.texturesPathDEBUG + name;
 		}
 		/// <summary>
 		/// GetShaderPath add to shader name path
@@ -52,7 +53,7 @@ namespace Hiscraft.Helpers
 		/// <returns>shader full path</returns>
 		internal static string GetShaderPath(string name)
 		{
-			return "../../../Resources/Shaders/" + name;
+			return WorldConst.ShadersPathDEBUG + name;
 		}
 	}
 }
