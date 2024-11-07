@@ -13,5 +13,6 @@ namespace Hiscraft.WorldModels
 		internal const int CHUNK_OFFSET = 3;
 		internal const string texturesPathDEBUG = "../../../Resources/Textures/";
 		internal const string ShadersPathDEBUG = "../../../Resources/Shaders//";
+		internal const int SEED = 1780224920;
 	}
 }
