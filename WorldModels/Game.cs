@@ -86,14 +86,13 @@ namespace Hiscraft.WorldModels
 		{
 			await Task.Yield();
 			Console.WriteLine($"Creting chunks is center of {chankX}|{chankZ} on {DateTime.Now.Ticks}");
-			var newRenderMap = new List<Chunk>();
 			for (int x = chankX - WorldConst.CHUNK_OFFSET; x <= chankX + WorldConst.CHUNK_OFFSET; ++x)
 			{
 				for (int z = chankZ - WorldConst.CHUNK_OFFSET; z <= chankZ + WorldConst.CHUNK_OFFSET; ++z)
 				{
 					await Task.Run(() =>
 					{
-						 int copiedX = x;
+						int copiedX = x;
 						int copiedZ = z;
 						Chunk chunk = null!;
 						lock (ThreadManager.lockerAllList)
@@ -108,17 +107,16 @@ namespace Hiscraft.WorldModels
 								allChunks.Add(chunk);
 							}
 							Console.WriteLine($"Creting chunk {copiedX}|{copiedZ}");
+							lock (ThreadManager.lockerRenderList)
+							{
+								renderChunks.Add(chunk);
+							}
 						}
 						else
 						{
 							Console.WriteLine($"Taking chunk {copiedX}|{copiedZ}");
 						}
-						newRenderMap.Add(chunk);
-
-						lock (ThreadManager.lockerRenderList)
-						{
-							renderChunks.Add(chunk);
-						}
+						//docelowo tez dodawanie ale to musialbym najpierw usuwac XDDD
 					});
 				}
 			}
