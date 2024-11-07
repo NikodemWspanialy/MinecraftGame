@@ -51,7 +51,7 @@ namespace Hiscraft.WorldModels
 		/// <param name="chankZ"></param>
 		private void InitChunks()
 		{
-			Console.WriteLine($"Init chunks");
+			ConsoleWriter.Write("Chunks initialization", ConsoleColor.Red, ConsoleColor.Yellow);
 			var newRenderMap = new List<Chunk>();
 			Stopwatch stopwatch = Stopwatch.StartNew();
 			for (int x = -WorldConst.CHUNK_OFFSET; x <= +WorldConst.CHUNK_OFFSET; ++x)
@@ -71,12 +71,10 @@ namespace Hiscraft.WorldModels
 						allChunks.Add(chunk);
 					}
 					stopwatch.Stop();
-					Console.WriteLine($" chunk x = {x}|z = {z} generating time = {stopwatch.ElapsedMilliseconds} ms");
+					ConsoleWriter.Write($"initialize chunk x = {x}|z = {z} generating time = {stopwatch.ElapsedMilliseconds} ms");
 				}
 			}
-			Console.Clear();
-			Console.WriteLine("Generating in time frame rendering");
-
+			ConsoleWriter.Write("End of initialize components", ConsoleColor.Red, ConsoleColor.Yellow);
 		}
 
 		/// <summary>
@@ -85,7 +83,7 @@ namespace Hiscraft.WorldModels
 		private async Task PrepareChunks(int chankX, int chankZ)
 		{
 			await Task.Yield();
-			Console.WriteLine($"Creting chunks is center of {chankX}|{chankZ} on {DateTime.Now.Ticks}");
+			ConsoleWriter.Write($"Change chunk, so new chunks are preparing with center in {chankX}|{chankZ}", ConsoleColor.Blue, ConsoleColor.Yellow);
 			for (int x = chankX - WorldConst.CHUNK_OFFSET; x <= chankX + WorldConst.CHUNK_OFFSET; ++x)
 			{
 				for (int z = chankZ - WorldConst.CHUNK_OFFSET; z <= chankZ + WorldConst.CHUNK_OFFSET; ++z)
@@ -106,7 +104,7 @@ namespace Hiscraft.WorldModels
 							{
 								allChunks.Add(chunk);
 							}
-							Console.WriteLine($"Creting chunk {copiedX}|{copiedZ}");
+							ConsoleWriter.Write($"Creating chunk {copiedX}|{copiedZ}", ConsoleColor.Red, ConsoleColor.Green);
 							lock (ThreadManager.lockerRenderList)
 							{
 								renderChunks.Add(chunk);
@@ -114,7 +112,7 @@ namespace Hiscraft.WorldModels
 						}
 						else
 						{
-							Console.WriteLine($"Taking chunk {copiedX}|{copiedZ}");
+							ConsoleWriter.Write($"Chunk exists already {copiedX}|{copiedZ}", ConsoleColor.Blue, ConsoleColor.Green);
 						}
 						//docelowo tez dodawanie ale to musialbym najpierw usuwac XDDD
 					});

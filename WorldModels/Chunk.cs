@@ -205,7 +205,8 @@ namespace Hiscraft.WorldModels
 			{
 			ThreadManager.proszeZadziałaj.Enqueue(() =>
 			{
-                Console.WriteLine($"Wykonuje sie dlatego muli {position.X}|{position.Z}");
+				ConsoleWriter.Write($"Prepare chunks pipelines for {position.X}|{position.Z}", ConsoleColor.White, ConsoleColor.Blue);
+
 				chunkVAO = new VAO();
 				chunkVAO.Use();
 
@@ -223,7 +224,7 @@ namespace Hiscraft.WorldModels
 				IsReady = true;
 			});
 			}
-		} // take data and process it for rendering
+		} 
 		#endregion
 
 		#region public functions
@@ -237,7 +238,6 @@ namespace Hiscraft.WorldModels
 			//bind pipeliens
 			lock (ThreadManager.locker)
 			{
-
 			shader.Use();
 			chunkVAO.Use();
 			chunkEBO.Use();

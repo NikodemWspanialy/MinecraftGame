@@ -1,4 +1,5 @@
-﻿using OpenTK.Graphics.OpenGL4;
+﻿using Hiscraft.Helpers;
+using OpenTK.Graphics.OpenGL4;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +40,7 @@ namespace Hiscraft.GraphicModels
 			if (success == 0)
 			{
 				string infoLog = GL.GetShaderInfoLog(VertexShader);
-				Console.WriteLine(infoLog);
+				ConsoleWriter.Write(infoLog);
 			}
 
 			GL.CompileShader(FragmentShader);
@@ -48,7 +49,7 @@ namespace Hiscraft.GraphicModels
 			if (success == 0)
 			{
 				string infoLog = GL.GetShaderInfoLog(FragmentShader);
-				Console.WriteLine(infoLog);
+				ConsoleWriter.Write(infoLog);
 			}
 
 			ID = GL.CreateProgram();
@@ -62,7 +63,7 @@ namespace Hiscraft.GraphicModels
 			if (success == 0)
 			{
 				string infoLog = GL.GetProgramInfoLog(ID);
-				Console.WriteLine(infoLog);
+				ConsoleWriter.Write(infoLog);
 			}
 
 			GL.DetachShader(ID, VertexShader);
