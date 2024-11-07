@@ -209,7 +209,7 @@ namespace Hiscraft.WorldModels
 			lock (ThreadManager.locker)
 			{
 				Action action;
-				var result = ThreadManager.proszeZadziałaj.TryDequeue(out action);
+				var result = ThreadManager.ActionToInvokeByMainThreadQueue.TryDequeue(out action);
 				if (result)
 				{
 					action?.Invoke();

@@ -10,7 +10,7 @@ namespace Hiscraft.Threads
 	internal static class ThreadManager
 	{
 		internal static object locker = new();
-		internal static Queue<Action> proszeZadziałaj = new();
+		internal static Queue<Action> ActionToInvokeByMainThreadQueue = new();
 		internal static object lockerAllList = new();	
 		internal static object lockerRenderList = new();	
 	}

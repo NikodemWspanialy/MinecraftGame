@@ -207,7 +207,7 @@ namespace Hiscraft.WorldModels
 		{
 			lock (ThreadManager.locker)
 			{
-			ThreadManager.proszeZadziałaj.Enqueue(() =>
+			ThreadManager.ActionToInvokeByMainThreadQueue.Enqueue(() =>
 			{
 				Stopwatch stopwatch = Stopwatch.StartNew();
 				chunkVAO = new VAO();
