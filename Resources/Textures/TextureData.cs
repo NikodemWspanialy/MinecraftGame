@@ -1,5 +1,4 @@
-﻿
-using OpenTK.Mathematics;
+﻿using OpenTK.Mathematics;
 using Hiscraft.Entities;
 using Hiscraft.Entities.BlockTypeEntities;
 

@@ -6,12 +6,7 @@ using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Hiscraft.WorldModels
 {
@@ -168,7 +163,7 @@ namespace Hiscraft.WorldModels
 			base.OnUnload();
 			foreach (var chunk in allChunks)
 			{
-				chunk.Delete();
+				chunk?.Delete();
 			}
 			shader.Delete();
 
