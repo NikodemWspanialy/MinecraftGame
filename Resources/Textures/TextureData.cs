@@ -34,6 +34,16 @@ namespace Hiscraft.Resources.Textures
                     {FacesEnum.BOTTOM, new Vector2(2f, 15f) },
                 }
             },
+			{BlockType.SemiDirt, new Dictionary<FacesEnum, Vector2>()
+				{
+					{FacesEnum.FRONT, new Vector2(2f, 15f) },
+					{FacesEnum.LEFT, new Vector2(2f, 15f) },
+					{FacesEnum.RIGHT, new Vector2(2f, 15f) },
+					{FacesEnum.BACK, new Vector2(2f, 15f) },
+					{FacesEnum.TOP, new Vector2(2f, 15f) },
+					{FacesEnum.BOTTOM, new Vector2(2f, 15f) },
+				}
+			},
 			{BlockType.Grass, new Dictionary<FacesEnum, Vector2>()
 				{
 					{FacesEnum.FRONT, new Vector2(3f, 15f) },

@@ -6,11 +6,11 @@ using Hiscraft.Entities.BlockTypeEntities;
 
 namespace Hiscraft.WorldModels
 {
-    /// <summary>
-    /// Block class represents a block  entity, it is hangle by chunk
-    /// zblock keeps it own position, texture uv and faces vertices
-    /// </summary>
-    internal class Block
+	/// <summary>
+	/// Block class represents a block  entity, it is hangle by chunk
+	/// zblock keeps it own position, texture uv and faces vertices
+	/// </summary>
+	internal class Block
 	{
 		#region Private fields
 		/// <summary>
@@ -32,12 +32,12 @@ namespace Hiscraft.WorldModels
 		/// <summary>
 		/// Position property only for getting
 		/// </summary>
-		public Vector3 Position {  get { return position; } }
+		public Vector3 Position { get { return position; } }
 
 		/// <summary>
 		/// Blok type property only for getting
 		/// </summary>
-		public BlockType BlockType {  get { return type; } }
+		public BlockType BlockType { get { return type; } }
 		#endregion
 
 		#region Constructor
@@ -53,10 +53,48 @@ namespace Hiscraft.WorldModels
 
 			if (blockType != BlockType.Empty)
 			{
-				var blockUV = FileHelper.GetUVsFromBook(TextureData.blocksUV[blockType]);
-
-				faces = new()
+				if (blockType.ToString().Contains("Semi"))
 				{
+					var blockUV = FileHelper.GetSemiBlockUVsFromBook(TextureData.blocksUV[blockType]);
+					faces = new()
+					{
+					{FacesEnum.FRONT, new Face {
+						vertices = MoveToPosition(FacesVertexCollections.SemiBlocksVertexCollection[FacesEnum.FRONT]),
+						uv = blockUV[FacesEnum.FRONT]
+						}
+					},
+					{FacesEnum.BACK, new Face {
+						vertices = MoveToPosition(FacesVertexCollections.SemiBlocksVertexCollection[FacesEnum.BACK]),
+						uv = blockUV[FacesEnum.BACK]
+						}
+					},
+					{FacesEnum.LEFT, new Face {
+					vertices = MoveToPosition(FacesVertexCollections.SemiBlocksVertexCollection[FacesEnum.LEFT]),
+					uv = blockUV[FacesEnum.LEFT]
+						}
+					},
+					{FacesEnum.RIGHT, new Face {
+					vertices = MoveToPosition(FacesVertexCollections.SemiBlocksVertexCollection[FacesEnum.RIGHT]),
+					uv = blockUV[FacesEnum.RIGHT]
+						}
+					},
+					{FacesEnum.TOP, new Face {
+					vertices = MoveToPosition(FacesVertexCollections.SemiBlocksVertexCollection[FacesEnum.TOP]),
+					uv = blockUV[FacesEnum.TOP]
+						}
+					},
+					{FacesEnum.BOTTOM, new Face {
+					vertices = MoveToPosition(FacesVertexCollections.SemiBlocksVertexCollection[FacesEnum.BOTTOM]),
+					uv = blockUV[FacesEnum.BOTTOM]
+						}
+					},
+					};
+				}
+				else
+				{
+					var blockUV = FileHelper.GetBlockUVsFromBook(TextureData.blocksUV[blockType]);
+					faces = new()
+					{
 					{FacesEnum.FRONT, new Face {
 						vertices = MoveToPosition(FacesVertexCollections.BlocksVertexCollection[FacesEnum.FRONT]),
 						uv = blockUV[FacesEnum.FRONT]
@@ -70,24 +108,25 @@ namespace Hiscraft.WorldModels
 					{FacesEnum.LEFT, new Face {
 					vertices = MoveToPosition(FacesVertexCollections.BlocksVertexCollection[FacesEnum.LEFT]),
 					uv = blockUV[FacesEnum.LEFT]
-						} 
+						}
 					},
 					{FacesEnum.RIGHT, new Face {
 					vertices = MoveToPosition(FacesVertexCollections.BlocksVertexCollection[FacesEnum.RIGHT]),
 					uv = blockUV[FacesEnum.RIGHT]
-						} 
+						}
 					},
 					{FacesEnum.TOP, new Face {
 					vertices = MoveToPosition(FacesVertexCollections.BlocksVertexCollection[FacesEnum.TOP]),
 					uv = blockUV[FacesEnum.TOP]
-						} 
+						}
 					},
 					{FacesEnum.BOTTOM, new Face {
 					vertices = MoveToPosition(FacesVertexCollections.BlocksVertexCollection[FacesEnum.BOTTOM]),
 					uv = blockUV[FacesEnum.BOTTOM]
-						} 
+						}
 					},
-				};
+					};
+				}
 			}
 		}
 		#endregion

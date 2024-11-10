@@ -6,6 +6,7 @@
 		internal static List<BlockType> noCoveringBlocks = new()
 		{
 			BlockType.Empty,
+			BlockType.SemiDirt
 		};
 		internal static List<BlockType> alwaysDrawBlocks = new()
 		{

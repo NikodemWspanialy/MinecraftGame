@@ -14,7 +14,7 @@ namespace Hiscraft.Helpers
 		/// </summary>
 		/// <param name="coords"></param>
 		/// <returns></returns>
-		internal static Dictionary<FacesEnum, List<Vector2>> GetUVsFromBook(Dictionary<FacesEnum, Vector2> coords)
+		internal static Dictionary<FacesEnum, List<Vector2>> GetBlockUVsFromBook(Dictionary<FacesEnum, Vector2> coords)
 		{
 			Dictionary<FacesEnum, List<Vector2>> faceUV = new Dictionary<FacesEnum, List<Vector2>>();
 
@@ -31,6 +31,29 @@ namespace Hiscraft.Helpers
 
 			return faceUV;
 		}
+		/// <summary>
+		/// cuttong texture form texture book for semi blocks
+		/// </summary>
+		/// <param name="coords"></param>
+		/// <returns></returns>
+		internal static Dictionary<FacesEnum, List<Vector2>> GetSemiBlockUVsFromBook(Dictionary<FacesEnum, Vector2> coords)
+		{
+			Dictionary<FacesEnum, List<Vector2>> faceUV = new Dictionary<FacesEnum, List<Vector2>>();
+
+			foreach (var faceCoord in coords)
+			{
+				faceUV[faceCoord.Key] = new List<Vector2>()
+				{
+					new Vector2((faceCoord.Value.X+1f)/16f, (faceCoord.Value.Y+0.5f)/16f),
+					new Vector2(faceCoord.Value.X/16f, (faceCoord.Value.Y+0.5f)/16f),
+					new Vector2(faceCoord.Value.X/16f, faceCoord.Value.Y/16f),
+					new Vector2((faceCoord.Value.X+1f)/16f, faceCoord.Value.Y/16f),
+				};
+			}
+
+			return faceUV;
+		}
+
 		/// <summary>
 		/// GetTexturePat add to texture name path
 		/// </summary>
