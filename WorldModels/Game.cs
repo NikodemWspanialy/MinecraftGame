@@ -42,9 +42,14 @@ namespace Hiscraft.WorldModels
 		private int width, height;
 
 		/// <summary>
-		/// field for Shader program for every object
+		/// field for Shader program for every object but water
 		/// </summary>
 		private Shader shader;
+
+		/// <summary>
+		/// field forShader program for water
+		/// </summary>
+		private Shader waterShader;
 		#endregion
 
 
@@ -176,6 +181,7 @@ namespace Hiscraft.WorldModels
 			InitChunks();
 
 			shader = new Shader(FileHelper.GetShaderPath("Default.vert"), FileHelper.GetShaderPath("Default.frag"));
+			waterShader = new Shader(FileHelper.GetShaderPath("Default.vert"), FileHelper.GetShaderPath("Water.frag"));
 
 			GL.Enable(EnableCap.DepthTest);
 
@@ -190,6 +196,7 @@ namespace Hiscraft.WorldModels
 				chunk?.Delete();
 			}
 			shader.Delete();
+			waterShader.Delete();
 
 		}
 		protected override void OnRenderFrame(FrameEventArgs args)
@@ -217,7 +224,7 @@ namespace Hiscraft.WorldModels
 					if (chunk.IsReady)
 					{
 
-						chunk.Render(shader);
+						chunk.Render(shader, waterShader);
 					}
 				}
 			}

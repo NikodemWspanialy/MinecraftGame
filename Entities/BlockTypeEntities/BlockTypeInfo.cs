@@ -7,6 +7,7 @@
 		{
 			BlockType.Empty,
 			BlockType.SemiGrass,
+			BlockType.Water,
 		};
 		internal static List<BlockType> alwaysDrawBlocks = new()
 		{
