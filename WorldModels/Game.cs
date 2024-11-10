@@ -14,19 +14,46 @@ namespace Hiscraft.WorldModels
 	{
 
 		#region game elements
+		/// <summary>
+		/// list of all chunks generated
+		/// </summary>
 		private List<Chunk> allChunks;
+
+		/// <summary>
+		/// list of chunks rendnered every frame
+		/// </summary>
 		private List<Chunk> renderChunks;
+
+		/// <summary>
+		/// camera object
+		/// </summary>
 		private Camera camera;
+
+		/// <summary>
+		/// field handing last player chunk to call when it changed
+		/// </summary>
 		private Vector2i lastPlayerChunk = new Vector2i(0, 0);
 		#endregion
 
 		#region privates fields
+		/// <summary>
+		/// width and height of window
+		/// </summary>
 		private int width, height;
+
+		/// <summary>
+		/// field for Shader program for every object
+		/// </summary>
 		private Shader shader;
 		#endregion
 
 
 		#region ctor
+		/// <summary>
+		/// ctor with 2 parameter
+		/// </summary>
+		/// <param name="width">window width</param>
+		/// <param name="height">window height</param>
 		public Game(int width, int height) : base(GameWindowSettings.Default, NativeWindowSettings.Default)
 		{
 			this.width = width;
@@ -42,8 +69,6 @@ namespace Hiscraft.WorldModels
 		/// <summary>
 		/// Initialize first chunks
 		/// </summary>
-		/// <param name="chankX"></param>
-		/// <param name="chankZ"></param>
 		private void InitChunks()
 		{
 			ConsoleWriter.Write("Chunks initialization", ConsoleColor.Red, ConsoleColor.Yellow);
@@ -73,7 +98,7 @@ namespace Hiscraft.WorldModels
 		}
 
 		/// <summary>
-		/// Prepare new chunks after changing a camera position 
+		/// Prepare new chunks after changing a camera position, as argument passed center chunk (camera position)
 		/// </summary>
 		private async Task PrepareChunks(int chankX, int chankZ)
 		{
@@ -100,7 +125,6 @@ namespace Hiscraft.WorldModels
 							{
 								allChunks.Add(chunk);
 							}
-							//ConsoleWriter.Write($"Creating chunk {copiedX}|{copiedZ}", ConsoleColor.Red, ConsoleColor.Green);
 							lock (ThreadManager.lockerRenderList)
 							{
 								renderChunks.Add(chunk);
@@ -109,7 +133,7 @@ namespace Hiscraft.WorldModels
 						else
 						{
 							ConsoleWriter.Write($"Chunk exists already {copiedX}|{copiedZ}", ConsoleColor.Blue, ConsoleColor.Green);
-							//docelowo tez dodawanie ale to musialbym najpierw usuwac XDDD
+							//docelowo tez dodawanie ale to musialbym najpierw usuwac, bo nie ma sensu w tym memencie
 						}
 					});
 				}
@@ -217,6 +241,10 @@ namespace Hiscraft.WorldModels
 			camera.Update(input, mouse, args);
 			CheckChunk();
 		}
+		/// <summary>
+		/// override onKeyDown
+		/// </summary>
+		/// <param name="e"></param>
 		protected override void OnKeyDown(KeyboardKeyEventArgs e)
 		{
 			if (e.Key == Keys.Escape)
