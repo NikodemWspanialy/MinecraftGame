@@ -237,7 +237,7 @@ namespace Hiscraft.WorldModels
 
 				chunkEBO = new EBO(chunkIndices);
 
-				texture = new Texture(FileHelper.GetTexturePath("TextureBook.png"));
+				texture = new Texture(FileHelper.GetTexturePath("TextureBookUpdate.png"));
 				stopwatch.Stop();
 				ConsoleWriter.Write($"Prepare chunks pipelines for {position.X}|{position.Z} in time {stopwatch.ElapsedMilliseconds}", ConsoleColor.White, ConsoleColor.Blue);
 				IsReady = true;

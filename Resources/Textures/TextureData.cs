@@ -34,13 +34,13 @@ namespace Hiscraft.Resources.Textures
                     {FacesEnum.BOTTOM, new Vector2(2f, 15f) },
                 }
             },
-			{BlockType.SemiDirt, new Dictionary<FacesEnum, Vector2>()
+			{BlockType.SemiGrass, new Dictionary<FacesEnum, Vector2>()
 				{
-					{FacesEnum.FRONT, new Vector2(2f, 15f) },
-					{FacesEnum.LEFT, new Vector2(2f, 15f) },
-					{FacesEnum.RIGHT, new Vector2(2f, 15f) },
-					{FacesEnum.BACK, new Vector2(2f, 15f) },
-					{FacesEnum.TOP, new Vector2(2f, 15f) },
+					{FacesEnum.FRONT, new Vector2(3f, 15.5f) },
+					{FacesEnum.LEFT, new Vector2(3f, 15.5f) },
+					{FacesEnum.RIGHT, new Vector2(3f, 15.5f) },
+					{FacesEnum.BACK, new Vector2(3f, 15.5f) },
+					{FacesEnum.TOP, new Vector2(7f, 13f) },
 					{FacesEnum.BOTTOM, new Vector2(2f, 15f) },
 				}
 			},
@@ -124,16 +124,26 @@ namespace Hiscraft.Resources.Textures
 					{FacesEnum.BOTTOM, new Vector2(1f, 15f) },
 				}
 			},
-			{BlockType.Empty, new Dictionary<FacesEnum, Vector2>()
+			{BlockType.Trunk, new Dictionary<FacesEnum, Vector2>()
                 {
-                    {FacesEnum.FRONT, new Vector2(3f, 15f) },
-                    {FacesEnum.LEFT, new Vector2(3f, 15f) },
-                    {FacesEnum.RIGHT, new Vector2(3f, 15f) },
-                    {FacesEnum.BACK, new Vector2(3f, 15f) },
-                    {FacesEnum.TOP, new Vector2(7f, 13f) },
-                    {FacesEnum.BOTTOM, new Vector2(3f, 15f) },
+                    {FacesEnum.FRONT, new Vector2(4f, 14f) },
+                    {FacesEnum.LEFT, new Vector2(4f, 14f) },
+                    {FacesEnum.RIGHT, new Vector2(4f, 14f) },
+                    {FacesEnum.BACK, new Vector2(4f, 14f) },
+                    {FacesEnum.TOP, new Vector2(5f, 14f) },
+                    {FacesEnum.BOTTOM, new Vector2(5f, 14f) },
                 }
-            }
-        };
+            },
+			{BlockType.Leaves, new Dictionary<FacesEnum, Vector2>()
+				{
+					{FacesEnum.FRONT, new Vector2(5f, 12f) },
+					{FacesEnum.LEFT, new Vector2(5f, 12f) },
+					{FacesEnum.RIGHT, new Vector2(5f, 12f) },
+					{FacesEnum.BACK, new Vector2(5f, 12f) },
+					{FacesEnum.TOP, new Vector2(5f, 12f) },
+					{FacesEnum.BOTTOM, new Vector2(5f, 12f) },
+				}
+			}
+		};
     }
 }

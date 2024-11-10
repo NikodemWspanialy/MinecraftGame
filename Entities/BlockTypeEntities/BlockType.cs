@@ -22,6 +22,8 @@ namespace Hiscraft.Entities.BlockTypeEntities
         Coal,
         Diamond,
         Pumpkin,
-        SemiDirt,
+        SemiGrass,
+        Trunk, 
+        Leaves,
 	}
 }

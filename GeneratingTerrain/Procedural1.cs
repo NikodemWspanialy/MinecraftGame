@@ -35,8 +35,7 @@ namespace Hiscraft.GeneratingTerrain
 				if (terrainHeight > 45)
 					return BlockType.Snow;
 
-
-				if (x % 2 == 0) return BlockType.SemiDirt;
+				if (x % 2 == 0) return BlockType.SemiGrass;
 				return BlockType.Grass;
 			}
 			if (terrainHeight + 1 == y)
