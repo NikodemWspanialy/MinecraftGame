@@ -239,7 +239,10 @@ namespace Hiscraft.WorldModels
 
 			base.OnUpdateFrame(args);
 			camera.Update(input, mouse, args);
-			CheckChunk();
+			if (WorldConst.GENERATE_CHUNK)
+			{
+				CheckChunk();
+			}
 		}
 		/// <summary>
 		/// override onKeyDown

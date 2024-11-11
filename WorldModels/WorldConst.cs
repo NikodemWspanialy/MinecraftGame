@@ -8,5 +8,6 @@
 		internal const string texturesPathDEBUG = "../../../Resources/Textures/";
 		internal const string ShadersPathDEBUG = "../../../Resources/Shaders//";
 		internal const int SEED = 1780224920;
+		internal const bool GENERATE_CHUNK = true;
 	}
 }
