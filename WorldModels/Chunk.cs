@@ -74,18 +74,18 @@ namespace Hiscraft.WorldModels
 		/// </summary>
 		private void GenerateBlocks()
 		{
-			int XtoINT = (int)position.X;
-			int ZtoINT = (int)position.Z;
+			int actualchunkX = (int)position.X;
+			int actualchunkZ = (int)position.Z;
 			for (int x = 0; x < WorldConst.CHUNK_SIZE; x++)
 			{
 				for (int y = 0; y < WorldConst.HIGH; y++)
 				{
 					for (int z = 0; z < WorldConst.CHUNK_SIZE; z++)
 					{
-						var type = Procedural1.Find(XtoINT + x, y, ZtoINT + z);
+						var type = Procedural2.Find(actualchunkX + x, y, actualchunkZ + z);
 						if (type != BlockType.Empty)
 						{
-							Block block = new Block(new Vector3(XtoINT + x,y,ZtoINT + z), type);
+							Block block = new Block(new Vector3(actualchunkX + x,y,actualchunkZ + z), type);
 							blocks[x, y, z] = block;
 						}
 					}
