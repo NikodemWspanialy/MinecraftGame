@@ -167,14 +167,13 @@ namespace Hiscraft.WorldModels
 				++faceCounter;
 			}
 
-
-			AddIndices(faceCounter);
+			AddIndices4(faceCounter);
 		}
 		/// <summary>
 		/// adding indices of square devided to 2 triangles in path 0,1,2,2,3,0
 		/// </summary>
 		/// <param name="amtFaces"></param>
-		private void AddIndices(int amtFaces)
+		private void AddIndices4(int amtFaces)
 		{
 			for (int i = 0; i < amtFaces; i++)
 			{

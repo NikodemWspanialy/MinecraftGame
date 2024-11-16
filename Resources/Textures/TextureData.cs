@@ -201,7 +201,7 @@ namespace Hiscraft.Resources.Textures
 					{FacesEnum.RIGHT, new Vector2(6f, 11f) },
 					{FacesEnum.BACK, new Vector2(6f, 11f) },
 					{FacesEnum.TOP, new Vector2(5f, 11f) },
-					{FacesEnum.BOTTOM, new Vector2(5f, 11f) },
+					{FacesEnum.BOTTOM, new Vector2(7f, 11f) },
 				}
 			},
 			{BlockType.Gold, new Dictionary<FacesEnum, Vector2>()

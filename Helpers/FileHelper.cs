@@ -55,6 +55,42 @@ namespace Hiscraft.Helpers
 		}
 
 		/// <summary>
+		/// cuttong texture form texture book for cactus
+		/// </summary>
+		/// <param name="coords"></param>
+		/// <returns></returns>
+		internal static Dictionary<FacesEnum, List<Vector2>> GetCactusUVsFromBook(Dictionary<FacesEnum, Vector2> coords)
+		{
+			Dictionary<FacesEnum, List<Vector2>> faceUV = new Dictionary<FacesEnum, List<Vector2>>();
+
+			foreach (var faceCoord in coords)
+			{
+				if (faceCoord.Key == FacesEnum.TOP || faceCoord.Key == FacesEnum.BOTTOM)
+				{
+					faceUV[faceCoord.Key] = new List<Vector2>()
+					{
+					new Vector2((faceCoord.Value.X+(15f/16f))/16f, (faceCoord.Value.Y+(15f/16f))/16f),
+					new Vector2((faceCoord.Value.X+(1f/16f))/16f, (faceCoord.Value.Y+(15f/16f))/16f),
+					new Vector2((faceCoord.Value.X+(1f/16f))/16f, (faceCoord.Value.Y+(1f/16f))/16f),
+					new Vector2((faceCoord.Value.X+(15f/16f))/16f, (faceCoord.Value.Y+(1f/16f))/16f),
+					};
+				}
+				else
+				{
+					faceUV[faceCoord.Key] = new List<Vector2>()
+					{
+					new Vector2((faceCoord.Value.X+(15f/16f))/16f, (faceCoord.Value.Y+1f)/16f),
+					new Vector2((faceCoord.Value.X+(1f/16f))/16f, (faceCoord.Value.Y+1f)/16f),
+					new Vector2((faceCoord.Value.X+(1f/16f))/16f, faceCoord.Value.Y/16f),
+					new Vector2((faceCoord.Value.X+(15f/16f))/16f, faceCoord.Value.Y/16f),
+					};
+				}
+			}
+
+			return faceUV;
+		}
+
+		/// <summary>
 		/// GetTexturePat add to texture name path
 		/// </summary>
 		/// <param name="name">texture name</param>

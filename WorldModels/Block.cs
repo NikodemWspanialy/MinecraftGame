@@ -53,47 +53,32 @@ namespace Hiscraft.WorldModels
 
 			if (blockType != BlockType.Empty)
 			{
-				if (blockType.ToString().Contains("Semi"))
+				var size = BlockTypeInfo.BlockSizeCollections[BlockType];
+				switch (size)
 				{
-					var blockUV = FileHelper.GetSemiBlockUVsFromBook(TextureData.blocksUV[blockType]);
-					faces = new()
-					{
-					{FacesEnum.FRONT, new Face {
-						vertices = MoveToPosition(FacesVertexCollections.SemiBlocksVertexCollection[FacesEnum.FRONT]),
-						uv = blockUV[FacesEnum.FRONT]
-						}
-					},
-					{FacesEnum.BACK, new Face {
-						vertices = MoveToPosition(FacesVertexCollections.SemiBlocksVertexCollection[FacesEnum.BACK]),
-						uv = blockUV[FacesEnum.BACK]
-						}
-					},
-					{FacesEnum.LEFT, new Face {
-					vertices = MoveToPosition(FacesVertexCollections.SemiBlocksVertexCollection[FacesEnum.LEFT]),
-					uv = blockUV[FacesEnum.LEFT]
-						}
-					},
-					{FacesEnum.RIGHT, new Face {
-					vertices = MoveToPosition(FacesVertexCollections.SemiBlocksVertexCollection[FacesEnum.RIGHT]),
-					uv = blockUV[FacesEnum.RIGHT]
-						}
-					},
-					{FacesEnum.TOP, new Face {
-					vertices = MoveToPosition(FacesVertexCollections.SemiBlocksVertexCollection[FacesEnum.TOP]),
-					uv = blockUV[FacesEnum.TOP]
-						}
-					},
-					{FacesEnum.BOTTOM, new Face {
-					vertices = MoveToPosition(FacesVertexCollections.SemiBlocksVertexCollection[FacesEnum.BOTTOM]),
-					uv = blockUV[FacesEnum.BOTTOM]
-						}
-					},
-					};
+					case BlockSizeClassifier.Normal:
+						PrepareFaces_Normal();
+						break;
+					case BlockSizeClassifier.Semi:
+						PrepareFaces_Semi();
+						break;
+					case BlockSizeClassifier.Cactus:
+						PrepareFaces_Cactus();
+						break;
+					default:
+						PrepareFaces_Normal();
+						break;
 				}
-				else
-				{
-					var blockUV = FileHelper.GetBlockUVsFromBook(TextureData.blocksUV[blockType]);
-					faces = new()
+			}
+		}
+		#endregion
+
+		#region private funcs
+
+		private void PrepareFaces_Normal()
+		{
+			var blockUV = FileHelper.GetBlockUVsFromBook(TextureData.blocksUV[type]);
+			faces = new()
 					{
 					{FacesEnum.FRONT, new Face {
 						vertices = MoveToPosition(FacesVertexCollections.BlocksVertexCollection[FacesEnum.FRONT]),
@@ -126,12 +111,81 @@ namespace Hiscraft.WorldModels
 						}
 					},
 					};
-				}
-			}
 		}
-		#endregion
-
-		#region private funcs
+		private void PrepareFaces_Semi()
+		{
+			var blockUV = FileHelper.GetSemiBlockUVsFromBook(TextureData.blocksUV[type]);
+			faces = new()
+					{
+					{FacesEnum.FRONT, new Face {
+						vertices = MoveToPosition(FacesVertexCollections.SemiBlocksVertexCollection[FacesEnum.FRONT]),
+						uv = blockUV[FacesEnum.FRONT]
+						}
+					},
+					{FacesEnum.BACK, new Face {
+						vertices = MoveToPosition(FacesVertexCollections.SemiBlocksVertexCollection[FacesEnum.BACK]),
+						uv = blockUV[FacesEnum.BACK]
+						}
+					},
+					{FacesEnum.LEFT, new Face {
+					vertices = MoveToPosition(FacesVertexCollections.SemiBlocksVertexCollection[FacesEnum.LEFT]),
+					uv = blockUV[FacesEnum.LEFT]
+						}
+					},
+					{FacesEnum.RIGHT, new Face {
+					vertices = MoveToPosition(FacesVertexCollections.SemiBlocksVertexCollection[FacesEnum.RIGHT]),
+					uv = blockUV[FacesEnum.RIGHT]
+						}
+					},
+					{FacesEnum.TOP, new Face {
+					vertices = MoveToPosition(FacesVertexCollections.SemiBlocksVertexCollection[FacesEnum.TOP]),
+					uv = blockUV[FacesEnum.TOP]
+						}
+					},
+					{FacesEnum.BOTTOM, new Face {
+					vertices = MoveToPosition(FacesVertexCollections.SemiBlocksVertexCollection[FacesEnum.BOTTOM]),
+					uv = blockUV[FacesEnum.BOTTOM]
+						}
+					},
+					};
+		}
+		private void PrepareFaces_Cactus()
+		{
+			var blockUV = FileHelper.GetCactusUVsFromBook(TextureData.blocksUV[type]);
+			faces = new()
+					{
+					{FacesEnum.FRONT, new Face {
+						vertices = MoveToPosition(FacesVertexCollections.CactusVertexCollection[FacesEnum.FRONT]),
+						uv = blockUV[FacesEnum.FRONT]
+						}
+					},
+					{FacesEnum.BACK, new Face {
+						vertices = MoveToPosition(FacesVertexCollections.CactusVertexCollection[FacesEnum.BACK]),
+						uv = blockUV[FacesEnum.BACK]
+						}
+					},
+					{FacesEnum.LEFT, new Face {
+					vertices = MoveToPosition(FacesVertexCollections.CactusVertexCollection[FacesEnum.LEFT]),
+					uv = blockUV[FacesEnum.LEFT]
+						}
+					},
+					{FacesEnum.RIGHT, new Face {
+					vertices = MoveToPosition(FacesVertexCollections.CactusVertexCollection[FacesEnum.RIGHT]),
+					uv = blockUV[FacesEnum.RIGHT]
+						}
+					},
+					{FacesEnum.TOP, new Face {
+					vertices = MoveToPosition(FacesVertexCollections.CactusVertexCollection[FacesEnum.TOP]),
+					uv = blockUV[FacesEnum.TOP]
+						}
+					},
+					{FacesEnum.BOTTOM, new Face {
+					vertices = MoveToPosition(FacesVertexCollections.CactusVertexCollection[FacesEnum.BOTTOM]),
+					uv = blockUV[FacesEnum.BOTTOM]
+						}
+					},
+					};
+		}
 		private List<Vector3> MoveToPosition(List<Vector3> vertices)
 		{
 			List<Vector3> transformedVertices = new List<Vector3>();

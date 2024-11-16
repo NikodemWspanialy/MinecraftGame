@@ -104,5 +104,56 @@ namespace Hiscraft.Entities
                 new Vector3(-0.5f, -0.5f, -0.5f), // bottomleft vert
             } },
 		};
+
+		private static float CactusOffset = 1f / 16f; 
+
+		/// <summary>
+		/// Vertex collection for cactus
+		/// </summary>
+		internal static readonly Dictionary<FacesEnum, List<Vector3>> CactusVertexCollection = new()
+		{
+			{FacesEnum.FRONT, new List<Vector3>()
+			{
+				new Vector3(-0.5f + CactusOffset, 0.5f, 0.5f - CactusOffset), // topleft vert
+                new Vector3(0.5f - CactusOffset, 0.5f, 0.5f - CactusOffset), // topright vert
+                new Vector3(0.5f - CactusOffset, -0.5f, 0.5f - CactusOffset), // bottomright vert
+                new Vector3(-0.5f + CactusOffset, -0.5f, 0.5f - CactusOffset), // bottomleft vert
+            } },
+			{FacesEnum.BACK, new List<Vector3>()
+			{
+				new Vector3(0.5f - CactusOffset, 0.5f, -0.5f + CactusOffset), // topleft vert
+                new Vector3(-0.5f + CactusOffset, 0.5f, -0.5f + CactusOffset), // topright vert
+                new Vector3(-0.5f + CactusOffset, -0.5f, -0.5f + CactusOffset), // bottomright vert
+                new Vector3(0.5f - CactusOffset, -0.5f, -0.5f + CactusOffset), // bottomleft vert
+            } },
+			{FacesEnum.LEFT, new List<Vector3>()
+			{
+				new Vector3(-0.5f + CactusOffset, 0.5f, -0.5f + CactusOffset), // topleft vert
+                new Vector3(-0.5f + CactusOffset, 0.5f, 0.5f - CactusOffset), // topright vert
+                new Vector3(-0.5f + CactusOffset, -0.5f, 0.5f - CactusOffset), // bottomright vert
+                new Vector3(-0.5f + CactusOffset, -0.5f, -0.5f + CactusOffset), // bottomleft vert
+            } },
+			{FacesEnum.RIGHT, new List<Vector3>()
+			{
+				new Vector3(0.5f - CactusOffset, 0.5f, 0.5f - CactusOffset), // topleft vert
+                new Vector3(0.5f - CactusOffset, 0.5f, -0.5f + CactusOffset), // topright vert
+                new Vector3(0.5f - CactusOffset, -0.5f, -0.5f + CactusOffset), // bottomright vert
+                new Vector3(0.5f - CactusOffset, -0.5f, 0.5f - CactusOffset), // bottomleft vert
+            } },
+			{FacesEnum.TOP, new List<Vector3>()
+			{
+				new Vector3(-0.5f + CactusOffset, 0.5f, -0.5f + CactusOffset), // topleft vert
+                new Vector3(0.5f - CactusOffset, 0.5f, -0.5f + CactusOffset), // topright vert
+                new Vector3(0.5f - CactusOffset, 0.5f, 0.5f - CactusOffset), // bottomright vert
+                new Vector3(-0.5f + CactusOffset, 0.5f, 0.5f - CactusOffset), // bottomleft vert
+            } },
+			{FacesEnum.BOTTOM, new List<Vector3>()
+			{
+				new Vector3(-0.5f + CactusOffset, -0.5f, 0.5f - CactusOffset), // topleft vert
+                new Vector3(0.5f - CactusOffset, -0.5f, 0.5f - CactusOffset), // topright vert
+                new Vector3(0.5f - CactusOffset, -0.5f, -0.5f + CactusOffset), // bottomright vert
+                new Vector3(-0.5f + CactusOffset, -0.5f, -0.5f + CactusOffset), // bottomleft vert
+            } },
+		};
 	}
 }
