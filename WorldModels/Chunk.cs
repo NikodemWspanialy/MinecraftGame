@@ -82,7 +82,7 @@ namespace Hiscraft.WorldModels
 				{
 					for (int z = 0; z < WorldConst.CHUNK_SIZE; z++)
 					{
-						var type = Procedural2.ShowAllBlocks(actualchunkX + x, y, actualchunkZ + z);
+						var type = Procedural2.Find(actualchunkX + x, y, actualchunkZ + z);
 						if (type != BlockType.Empty)
 						{
 							Block block = new Block(new Vector3(actualchunkX + x,y,actualchunkZ + z), type);

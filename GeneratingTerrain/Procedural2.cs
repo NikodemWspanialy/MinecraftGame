@@ -7,10 +7,20 @@ namespace Hiscraft.GeneratingTerrain
 {
 	internal class Procedural2
 	{
+		/// <summary>
+		/// Class responsible for procedural generaitng world
+		/// </summary>
         public Procedural2()
         {
 			Noise.Seed = WorldConst.SEED;
         }
+		/// <summary>
+		/// Main static method for finding blocks
+		/// </summary>
+		/// <param name="x">coord X</param>
+		/// <param name="y">coord Y</param>
+		/// <param name="z">coord Z</param>
+		/// <returns>BlockType on coords</returns>
         internal static BlockType Find(int x, int y, int z)
 		{
 			if(y == 0)
@@ -56,7 +66,14 @@ namespace Hiscraft.GeneratingTerrain
 			}
 			return BlockType.Empty;
 		}
-
+		#region Show All Blocks
+		/// <summary>
+		/// Draw all blocks every single block from BlockType  -> infinity
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="z"></param>
+		/// <returns></returns>
 		internal static BlockType ShowAllBlocks(int x, int y, int z)
 		{
 			var enums = Enum.GetValues<BlockType>();
@@ -70,6 +87,8 @@ namespace Hiscraft.GeneratingTerrain
 				return BlockType.Empty;
 			return enums[x / 2];
 		}
+		#endregion
+
 		#region private funcs
 		private static int GenerateTerrainHeight(int x, int z)
 		{
