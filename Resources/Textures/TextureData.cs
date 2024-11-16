@@ -143,7 +143,97 @@ namespace Hiscraft.Resources.Textures
 					{FacesEnum.TOP, new Vector2(5f, 12f) },
 					{FacesEnum.BOTTOM, new Vector2(5f, 12f) },
 				}
-			}
+			},
+			{BlockType.DarkTrunk, new Dictionary<FacesEnum, Vector2>()
+				{
+					{FacesEnum.FRONT, new Vector2(4f, 8f) },
+					{FacesEnum.LEFT, new Vector2(4f, 8f) },
+					{FacesEnum.RIGHT, new Vector2(4f, 8f) },
+					{FacesEnum.BACK, new Vector2(4f, 8f) },
+					{FacesEnum.TOP, new Vector2(5f, 14f) },
+					{FacesEnum.BOTTOM, new Vector2(5f, 14f) },
+				}
+			},
+			{BlockType.SnowLeaves, new Dictionary<FacesEnum, Vector2>()
+				{
+					{FacesEnum.FRONT, new Vector2(4f, 12f) },
+					{FacesEnum.LEFT, new Vector2(4f, 12f) },
+					{FacesEnum.RIGHT, new Vector2(4f, 12f) },
+					{FacesEnum.BACK, new Vector2(4f, 12f) },
+					{FacesEnum.TOP, new Vector2(2f, 11f) },
+					{FacesEnum.BOTTOM, new Vector2(5f, 12f) },
+				}
+			},
+			{BlockType.Ice, new Dictionary<FacesEnum, Vector2>()
+				{
+					{FacesEnum.FRONT, new Vector2(3f, 11f) },
+					{FacesEnum.LEFT, new Vector2(3f, 11f) },
+					{FacesEnum.RIGHT, new Vector2(3f, 11f) },
+					{FacesEnum.BACK, new Vector2(3f, 11f) },
+					{FacesEnum.TOP, new Vector2(3f, 11f) },
+					{FacesEnum.BOTTOM, new Vector2(3f, 11f) },
+				}
+			},
+			{BlockType.SavannaLeaves, new Dictionary<FacesEnum, Vector2>()
+				{
+					{FacesEnum.FRONT, new Vector2(4f, 10f) },
+					{FacesEnum.LEFT, new Vector2(4f, 10f) },
+					{FacesEnum.RIGHT, new Vector2(4f, 10f) },
+					{FacesEnum.BACK, new Vector2(4f, 10f) },
+					{FacesEnum.TOP, new Vector2(4f, 10f) },
+					{FacesEnum.BOTTOM, new Vector2(4f, 10f) },
+				}
+			},
+			{BlockType.SavannaTrunk, new Dictionary<FacesEnum, Vector2>()
+				{
+					{FacesEnum.FRONT, new Vector2(4f, 9f) },
+					{FacesEnum.LEFT, new Vector2(4f, 9f) },
+					{FacesEnum.RIGHT, new Vector2(4f, 9f) },
+					{FacesEnum.BACK, new Vector2(4f, 9f) },
+					{FacesEnum.TOP, new Vector2(5f, 14f) },
+					{FacesEnum.BOTTOM, new Vector2(5f, 14f) },
+				}
+			},
+			{BlockType.Cactus, new Dictionary<FacesEnum, Vector2>()
+				{
+					{FacesEnum.FRONT, new Vector2(6f, 11f) },
+					{FacesEnum.LEFT, new Vector2(6f, 11f) },
+					{FacesEnum.RIGHT, new Vector2(6f, 11f) },
+					{FacesEnum.BACK, new Vector2(6f, 11f) },
+					{FacesEnum.TOP, new Vector2(5f, 11f) },
+					{FacesEnum.BOTTOM, new Vector2(5f, 11f) },
+				}
+			},
+			{BlockType.Gold, new Dictionary<FacesEnum, Vector2>()
+				{
+					{FacesEnum.FRONT, new Vector2(0f, 13f) },
+					{FacesEnum.LEFT, new Vector2(0f, 13f) },
+					{FacesEnum.RIGHT, new Vector2(0f, 13f) },
+					{FacesEnum.BACK, new Vector2(0f, 13f) },
+					{FacesEnum.TOP, new Vector2(0f, 13f) },
+					{FacesEnum.BOTTOM, new Vector2(0f, 13f) },
+				}
+			},
+			{BlockType.Iron, new Dictionary<FacesEnum, Vector2>()
+				{
+					{FacesEnum.FRONT, new Vector2(1f, 13f) },
+					{FacesEnum.LEFT, new Vector2(1f, 13f) },
+					{FacesEnum.RIGHT, new Vector2(1f, 13f) },
+					{FacesEnum.BACK, new Vector2(1f, 13f) },
+					{FacesEnum.TOP, new Vector2(1f, 13f) },
+					{FacesEnum.BOTTOM, new Vector2(1f, 13f) },
+				}
+			},
+			{BlockType.Redstone, new Dictionary<FacesEnum, Vector2>()
+				{
+					{FacesEnum.FRONT, new Vector2(3f, 12f) },
+					{FacesEnum.LEFT, new Vector2(3f, 12f) },
+					{FacesEnum.RIGHT, new Vector2(3f, 12f) },
+					{FacesEnum.BACK, new Vector2(3f, 12f) },
+					{FacesEnum.TOP, new Vector2(3f, 12f) },
+					{FacesEnum.BOTTOM, new Vector2(3f, 12f) },
+				}
+			},
 		};
     }
 }

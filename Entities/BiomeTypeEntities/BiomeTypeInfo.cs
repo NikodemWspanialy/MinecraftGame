@@ -27,10 +27,10 @@ namespace Hiscraft.Entities.BiomeTypeEntities
 				new()
 				{
 					{ BiomeBlockType.SurfaceType, BlockType.Snow },
-					{ BiomeBlockType.TreeType, BlockType.Trunk },
-					{ BiomeBlockType.LeavesType, BlockType.Leaves },
+					{ BiomeBlockType.TreeType, BlockType.DarkTrunk },
+					{ BiomeBlockType.LeavesType, BlockType.SnowLeaves },
 					{ BiomeBlockType.SpecialBlockType, BlockType.Pumpkin},
-					{ BiomeBlockType.WaterType, BlockType.Water},
+					{ BiomeBlockType.WaterType, BlockType.Ice},
 				}
 			},
 			{
@@ -38,9 +38,9 @@ namespace Hiscraft.Entities.BiomeTypeEntities
 				new()
 				{
 					{ BiomeBlockType.SurfaceType, BlockType.Sand },
-					{ BiomeBlockType.TreeType, BlockType.Trunk },
+					{ BiomeBlockType.TreeType, BlockType.Cactus },
 					{ BiomeBlockType.LeavesType, BlockType.Empty },
-					{ BiomeBlockType.SpecialBlockType, BlockType.Pumpkin},
+					{ BiomeBlockType.SpecialBlockType, BlockType.Empty},
 					{ BiomeBlockType.WaterType, BlockType.Water},
 				}
 			},
@@ -49,8 +49,8 @@ namespace Hiscraft.Entities.BiomeTypeEntities
 				new()
 				{
 					{ BiomeBlockType.SurfaceType, BlockType.Coal},
-					{ BiomeBlockType.TreeType, BlockType.Trunk },
-					{ BiomeBlockType.LeavesType, BlockType.Leaves },
+					{ BiomeBlockType.TreeType, BlockType.SavannaTrunk },
+					{ BiomeBlockType.LeavesType, BlockType.SavannaLeaves },
 					{ BiomeBlockType.WaterType, BlockType.Water},
 					{ BiomeBlockType.SpecialBlockType, BlockType.Pumpkin},
 				}

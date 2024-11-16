@@ -82,7 +82,7 @@ namespace Hiscraft.WorldModels
 				{
 					for (int z = 0; z < WorldConst.CHUNK_SIZE; z++)
 					{
-						var type = Procedural2.Find(actualchunkX + x, y, actualchunkZ + z);
+						var type = Procedural2.ShowAllBlocks(actualchunkX + x, y, actualchunkZ + z);
 						if (type != BlockType.Empty)
 						{
 							Block block = new Block(new Vector3(actualchunkX + x,y,actualchunkZ + z), type);
@@ -237,7 +237,7 @@ namespace Hiscraft.WorldModels
 
 				chunkEBO = new EBO(chunkIndices);
 
-				texture = new Texture(FileHelper.GetTexturePath("TextureBookUpdate.png"));
+				texture = new Texture(FileHelper.GetTexturePath(WorldConst.TEXTURE_BOOK));
 				stopwatch.Stop();
 				ConsoleWriter.Write($"Prepare chunks pipelines for {position.X}|{position.Z} in time {stopwatch.ElapsedMilliseconds}", ConsoleColor.White, ConsoleColor.Blue);
 				IsReady = true;

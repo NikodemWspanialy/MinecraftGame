@@ -25,5 +25,14 @@ namespace Hiscraft.Entities.BlockTypeEntities
         SemiGrass,
         Trunk, 
         Leaves,
+        DarkTrunk,
+        SnowLeaves,
+        Ice,
+		SavannaTrunk,
+        SavannaLeaves,
+		Cactus,
+        Gold,
+        Iron,
+        Redstone,
 	}
 }

@@ -57,7 +57,20 @@ namespace Hiscraft.GeneratingTerrain
 			return BlockType.Empty;
 		}
 
+		internal static BlockType ShowAllBlocks(int x, int y, int z)
+		{
+			var enums = Enum.GetValues<BlockType>();
 
+			if(z != 0 || y != 0){
+				return BlockType.Empty;
+			}
+			if (x % 2 != 0) 
+				return BlockType.Empty;
+			if (x / 2 >= enums.Length || x < 0)
+				return BlockType.Empty;
+			return enums[x / 2];
+		}
+		#region private funcs
 		private static int GenerateTerrainHeight(int x, int z)
 		{
 			return WorldConst.HIGH / 2;
@@ -87,6 +100,6 @@ namespace Hiscraft.GeneratingTerrain
 		{
 			return BlockType.Empty;
 		}
-
+		#endregion
 	}
 }

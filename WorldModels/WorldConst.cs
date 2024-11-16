@@ -9,5 +9,6 @@
 		internal const string ShadersPathDEBUG = "../../../Resources/Shaders//";
 		internal const int SEED = 1780224920;
 		internal const bool GENERATE_CHUNK = true;
+		internal const string TEXTURE_BOOK = "TextureBookUpdate2.png";
 	}
 }
