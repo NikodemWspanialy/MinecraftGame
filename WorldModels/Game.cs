@@ -1,4 +1,5 @@
-﻿using Hiscraft.GraphicModels;
+﻿using Hiscraft.GeneratingTerrain;
+using Hiscraft.GraphicModels;
 using Hiscraft.Helpers;
 using Hiscraft.Threads;
 using OpenTK.Graphics.OpenGL4;
@@ -62,6 +63,8 @@ namespace Hiscraft.WorldModels
 			allChunks = new List<Chunk>();
 
 			CenterWindow(new Vector2i(width, height));
+
+			Procedural2.Seed(WorldConst.SEED);
 		}
 		#endregion
 

@@ -15,7 +15,7 @@ namespace Hiscraft.Entities.BiomeTypeEntities
 				BiomeType.Forest,
 				new()
 				{
-					{ BiomeBlockType.SurfaceType, BlockType.Dirt },
+					{ BiomeBlockType.SurfaceType, BlockType.Grass },
 					{ BiomeBlockType.TreeType, BlockType.Trunk },
 					{ BiomeBlockType.LeavesType, BlockType.Leaves },
 					{ BiomeBlockType.SpecialBlockType, BlockType.Pumpkin},
