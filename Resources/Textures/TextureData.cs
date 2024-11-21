@@ -234,6 +234,16 @@ namespace Hiscraft.Resources.Textures
 					{FacesEnum.BOTTOM, new Vector2(3f, 12f) },
 				}
 			},
+			{BlockType.SavannaGrass, new Dictionary<FacesEnum, Vector2>()
+				{
+					{FacesEnum.FRONT, new Vector2(7f, 5f) },
+					{FacesEnum.LEFT, new Vector2(7f, 5f) },
+					{FacesEnum.RIGHT, new Vector2(7f, 5f) },
+					{FacesEnum.BACK, new Vector2(7f, 5f) },
+					{FacesEnum.TOP, new Vector2(8f, 5f) },
+					{FacesEnum.BOTTOM, new Vector2(6f, 5f) },
+				}
+			},
 		};
     }
 }

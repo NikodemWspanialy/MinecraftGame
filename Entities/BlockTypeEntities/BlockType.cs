@@ -34,5 +34,6 @@ namespace Hiscraft.Entities.BlockTypeEntities
         Gold,
         Iron,
         Redstone,
+        SavannaGrass,
 	}
 }

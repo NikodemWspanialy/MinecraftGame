@@ -12,7 +12,7 @@ namespace Hiscraft.WorldModels
 		internal static string ShadersPathDEBUG = "../../../Resources/Shaders//";
 		internal static int SEED;
 		internal static bool GENERATE_CHUNK;
-		internal static string TEXTURE_BOOK = "TextureBookUpdate2.png";
+		internal static string TEXTURE_BOOK = "TextureBookUpdate3.png";
 		internal static float CONTINENTALNESS;
 		internal static float EROSIONS;
 		internal static float PEAKS_AND_VALLEYS;

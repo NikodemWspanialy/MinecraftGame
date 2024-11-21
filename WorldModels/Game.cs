@@ -66,11 +66,11 @@ namespace Hiscraft.WorldModels
 
 			Procedural2.Seed(
 				seeder: WorldConst.SEED,
-				c: WorldConst.CONTINENTALNESS,
-				e: WorldConst.EROSIONS,
-				pv: WorldConst.PEAKS_AND_VALLEYS,
-				con: WorldConst.DETAILS_CONGESTION,
-				t: WorldConst.THREES_SCALE
+				continetalness: WorldConst.CONTINENTALNESS,
+				erosion: WorldConst.EROSIONS,
+				peakAndValley: WorldConst.PEAKS_AND_VALLEYS,
+				details: WorldConst.DETAILS_CONGESTION,
+				tree: WorldConst.THREES_SCALE
 				);
 		}
 		#endregion

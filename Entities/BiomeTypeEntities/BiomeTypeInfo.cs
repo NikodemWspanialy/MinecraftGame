@@ -48,7 +48,7 @@ namespace Hiscraft.Entities.BiomeTypeEntities
 				BiomeType.Savanna,
 				new()
 				{
-					{ BiomeBlockType.SurfaceType, BlockType.Coal},
+					{ BiomeBlockType.SurfaceType, BlockType.SavannaGrass},
 					{ BiomeBlockType.TreeType, BlockType.SavannaTrunk },
 					{ BiomeBlockType.LeavesType, BlockType.SavannaLeaves },
 					{ BiomeBlockType.WaterType, BlockType.Water},

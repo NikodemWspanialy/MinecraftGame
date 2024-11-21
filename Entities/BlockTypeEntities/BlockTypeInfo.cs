@@ -39,6 +39,7 @@
 			{BlockType.Iron, BlockSizeClassifier.Normal },
 			{BlockType.Redstone, BlockSizeClassifier.Normal },
 			{BlockType.Empty, BlockSizeClassifier.Normal },
+			{BlockType.SavannaGrass, BlockSizeClassifier.Normal },
 		};
 	}
 }

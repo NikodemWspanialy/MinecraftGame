@@ -22,21 +22,22 @@ namespace Hiscraft.GeneratingTerrain
 		private static float congestionScale;
 
 		/// <summary>
-		/// 
+		/// seed all values, nust be invoke before Genering blocks
 		/// </summary>
 		/// <param name="seeder"></param>
-		/// <param name="c">Scale for continentalness</param>
-		/// <param name="e">Scale for erosions</param>
-		/// <param name="pv">Scale for Peaks nad valleys</param>
-		/// <param name="t">Scale for trees</param>
-		internal static void Seed(int seeder, float c, float e, float pv, float t, float con)
+		/// <param name="continetalness">Scale for continentalness</param>
+		/// <param name="erosion">Scale for erosions</param>
+		/// <param name="peakAndValley">Scale for Peaks nad valleys</param>
+		/// <param name="tree">Scale for trees</param>
+		/// <param name="details">Scale for other details</param>
+		internal static void Seed(int seeder, float continetalness = 0.0045f, float erosion = 0.0016f, float peakAndValley = 0.01f, float tree = 0.01f, float details = 0.01f)
 		{
 			seed = seeder;
-			continetalnessScale = c;
-			erosionScale = e;
-			peakScale = pv;
-			treeScale = t;
-			congestionScale = con;
+			continetalnessScale = continetalness;
+			erosionScale = erosion;
+			peakScale = peakAndValley;
+			treeScale = tree;
+			congestionScale = details;
 			Noise.Seed = seed;
 		}
 		/// <summary>
@@ -91,7 +92,7 @@ namespace Hiscraft.GeneratingTerrain
 			}
 			return BlockType.Empty;
 		}
-		#region Addision methods
+		#region Additional methods
 		/// <summary>
 		/// Draw all blocks every single block from BlockType  -> infinity
 		/// </summary>
@@ -155,7 +156,20 @@ namespace Hiscraft.GeneratingTerrain
 		}
 		private static BiomeType GenerateBiome(int x, int z)
 		{
-			return BiomeType.Forest;
+			float noise = Noise.CalcPixel2D(x, z, 0.0001f) / 256f;
+			switch (noise)
+			{
+				case < 0.20f:
+					return BiomeType.Desert;
+				case  < 0.5f:
+					return BiomeType.Forest;
+				case  < 0.7f:
+					return BiomeType.Savanna;
+				default:
+					return BiomeType.Polar;
+
+			}
+			
 		}
 		private static int GenerateDirtHeight(int x, int z)
 		{
