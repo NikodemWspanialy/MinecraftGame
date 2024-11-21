@@ -12,6 +12,8 @@
 		{
 			BlockType.Coal,
 			BlockType.Diamond,
+			BlockType.Gold,
+			BlockType.Redstone,
 		};
 
 		internal static Dictionary<BlockType, BlockSizeClassifier> BlockSizeCollections = new Dictionary<BlockType, BlockSizeClassifier>()

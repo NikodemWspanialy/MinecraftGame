@@ -64,13 +64,17 @@ namespace Hiscraft.WorldModels
 
 			CenterWindow(new Vector2i(width, height));
 
-			Procedural2.Seed(
+			Procedural2.Prepare(
 				seeder: WorldConst.SEED,
 				continetalness: WorldConst.CONTINENTALNESS,
 				erosion: WorldConst.EROSIONS,
 				peakAndValley: WorldConst.PEAKS_AND_VALLEYS,
 				details: WorldConst.DETAILS_CONGESTION,
-				tree: WorldConst.THREES_SCALE
+				tree: WorldConst.THREES_SCALE,
+				water: WorldConst.WATER,
+				highLevel: WorldConst.HIGH,
+				naturalResourcesRate: WorldConst.NATURAL_RESOURCES
+
 				);
 		}
 		#endregion

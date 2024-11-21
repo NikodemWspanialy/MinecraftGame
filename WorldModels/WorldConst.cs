@@ -18,6 +18,7 @@ namespace Hiscraft.WorldModels
 		internal static float PEAKS_AND_VALLEYS;
 		internal static float THREES_SCALE;
 		internal static float DETAILS_CONGESTION;
+		internal static int NATURAL_RESOURCES;
 
 		private const float CEP_DIVEDER = 10000f;
 		internal static void ReadConst()
@@ -35,7 +36,8 @@ namespace Hiscraft.WorldModels
 			&& int.TryParse(ConfigurationManager.AppSettings.Get("erosions"), out e)
 			&& int.TryParse(ConfigurationManager.AppSettings.Get("trees"), out t)
 			&& int.TryParse(ConfigurationManager.AppSettings.Get("details_congestion"), out det)
-			&& int.TryParse(ConfigurationManager.AppSettings.Get("peaks_and_valleys"), out p);
+			&& int.TryParse(ConfigurationManager.AppSettings.Get("peaks_and_valleys"), out p)
+			&& int.TryParse(ConfigurationManager.AppSettings.Get("natural_resources"), out NATURAL_RESOURCES);
 
 			CONTINENTALNESS = c / CEP_DIVEDER;
 			EROSIONS = e / CEP_DIVEDER;
@@ -59,13 +61,15 @@ namespace Hiscraft.WorldModels
 				&& HIGH >= 0
 				&& HIGH <= 100
 				&& WATER >= 0
-				&& WATER <= 100
+				&& WATER <= 10
+				&& NATURAL_RESOURCES >= 1
+				&& NATURAL_RESOURCES <= 10
 				&& CHUNK_OFFSET >= 0
 				&& CHUNK_OFFSET <= 10;
 
 			if (!success)
 			{
-				throw new Exception("Problem with setting cant go further");
+				throw new Exception("Error while reading confg file");
 			}
 		}
 	}
