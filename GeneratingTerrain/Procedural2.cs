@@ -18,16 +18,8 @@ namespace Hiscraft.GeneratingTerrain
 		private static float continetalnessScale;
 		private static float erosionScale;
 		private static float peakScale;
-
-		/// <summary>
-		/// Pass seed to perlen noices
-		/// </summary>
-		/// <param name="seeder"></param>
-		internal static void Seed(int seeder)
-		{
-			seed = seeder;
-			Noise.Seed = seed;
-		}
+		private static float treeScale;
+		private static float congestionScale;
 
 		/// <summary>
 		/// 
@@ -36,12 +28,15 @@ namespace Hiscraft.GeneratingTerrain
 		/// <param name="c">Scale for continentalness</param>
 		/// <param name="e">Scale for erosions</param>
 		/// <param name="pv">Scale for Peaks nad valleys</param>
-		internal static void Seed(int seeder, float c, float e, float pv)
+		/// <param name="t">Scale for trees</param>
+		internal static void Seed(int seeder, float c, float e, float pv, float t, float con)
 		{
 			seed = seeder;
 			continetalnessScale = c;
 			erosionScale = e;
 			peakScale = pv;
+			treeScale = t;
+			congestionScale = con;
 			Noise.Seed = seed;
 		}
 		/// <summary>

@@ -13,31 +13,31 @@ namespace Hiscraft.GeneratingTerrain.Collections
 			{
 				new() {
 					X = 0f,
-					Y = 1f
+					Y = 0.2f
 				},
 				new() {
 					X = 0.05f,
-					Y = 0f
+					Y = 0.3f
 				},
 				new() {
-					X = 0.3f,
-					Y = 0f
+					X = 0.2f,
+					Y = 0.45f
 				},
 				new() {
 					X = 0.35f,
-					Y = 0.5f
+					Y = 0.45f
 				},
 				new() {
-					X = 0.45f,
+					X = 0.5f,
 					Y = 0.5f
 				},
 				new() {
 					X = 0.6f,
-					Y = 0.9f
+					Y = 0.7f
 				},
 				new() {
-					X = 0.7f,
-					Y = 0.95f
+					X = 0.8f,
+					Y = 0.9f
 				},
 				new() {
 					X = 1f,

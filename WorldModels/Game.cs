@@ -68,7 +68,9 @@ namespace Hiscraft.WorldModels
 				seeder: WorldConst.SEED,
 				c: WorldConst.CONTINENTALNESS,
 				e: WorldConst.EROSIONS,
-				pv: WorldConst.PEAKS_AND_VALLEYS
+				pv: WorldConst.PEAKS_AND_VALLEYS,
+				con: WorldConst.DETAILS_CONGESTION,
+				t: WorldConst.THREES_SCALE
 				);
 		}
 		#endregion
