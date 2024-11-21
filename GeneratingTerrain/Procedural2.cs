@@ -5,6 +5,7 @@ using Hiscraft.WorldModels;
 using OpenTK.Mathematics;
 using SimplexNoise;
 using System.Runtime.CompilerServices;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Hiscraft.GeneratingTerrain
 {
@@ -80,16 +81,53 @@ namespace Hiscraft.GeneratingTerrain
 				return BiomeTypeInfo.BiomesDefinedBlocks[biome][BiomeBlockType.WaterType];
 			}
 
-			if (y + 1 == terrainHeight)
+			if (y - 1 == terrainHeight)
 			{
 				var isTree = GenerateThreeOnSurface(x, z, biome);
-				if (isTree == BlockType.Empty)
-					return isTree != BlockType.Empty ? isTree : GenerateFirstSurfaceBlock(x, z, biome);
+				return isTree != BlockType.Empty ? isTree : GenerateFirstSurfaceBlock(x, z, biome);
 			}
-			if (y + 2 == terrainHeight || y + 3 == terrainHeight)
+			if (y - 2 == terrainHeight || y - 3 == terrainHeight)
 			{
 				return GenerateThreeOnSurface(x, z, biome);
 			}
+			if (y - 4 == terrainHeight)
+			{
+
+				var isTree = GenerateThreeOnSurface(x, z, biome);
+				if (isTree != BlockType.Empty)
+				{
+					return BiomeTypeInfo.BiomesDefinedBlocks[biome][BiomeBlockType.TreeType];
+				}
+				isTree = GenerateThreeOnSurface(x + 1, z, biome);
+				if (isTree != BlockType.Empty)
+				{
+					return BiomeTypeInfo.BiomesDefinedBlocks[biome][BiomeBlockType.LeavesType];
+				}
+				isTree = GenerateThreeOnSurface(x - 1, z, biome);
+				if (isTree != BlockType.Empty)
+				{
+					return BiomeTypeInfo.BiomesDefinedBlocks[biome][BiomeBlockType.LeavesType];
+				}
+				isTree = GenerateThreeOnSurface(x, z + 1, biome);
+				if (isTree != BlockType.Empty)
+				{
+					return BiomeTypeInfo.BiomesDefinedBlocks[biome][BiomeBlockType.LeavesType];
+				}
+				isTree = GenerateThreeOnSurface(x, z - 1, biome);
+				if (isTree != BlockType.Empty)
+				{
+					return BiomeTypeInfo.BiomesDefinedBlocks[biome][BiomeBlockType.LeavesType];
+				}
+			}
+			if (y - 5 == terrainHeight)
+			{
+				var isTree = GenerateThreeOnSurface(x, z, biome);
+				if (isTree != BlockType.Empty)
+				{
+					return BiomeTypeInfo.BiomesDefinedBlocks[biome][BiomeBlockType.LeavesType];
+				}
+			}
+
 			return BlockType.Empty;
 		}
 		#region Additional methods
@@ -161,15 +199,15 @@ namespace Hiscraft.GeneratingTerrain
 			{
 				case < 0.20f:
 					return BiomeType.Desert;
-				case  < 0.5f:
+				case < 0.5f:
 					return BiomeType.Forest;
-				case  < 0.7f:
+				case < 0.7f:
 					return BiomeType.Savanna;
 				default:
 					return BiomeType.Polar;
 
 			}
-			
+
 		}
 		private static int GenerateDirtHeight(int x, int z)
 		{
@@ -185,7 +223,18 @@ namespace Hiscraft.GeneratingTerrain
 		}
 		private static BlockType GenerateThreeOnSurface(int x, int z, BiomeType biome)
 		{
-			return BlockType.Empty;
+			float noise = Noise.CalcPixel2D(x, z, 0.5f) / 256f;
+			noise = (float)Math.Round(noise, 2);
+			noise *= 100;
+			var value = (int)noise;
+			if (value == 10)
+			{
+				return BiomeTypeInfo.BiomesDefinedBlocks[biome][BiomeBlockType.TreeType];
+			}
+			else
+			{
+				return BlockType.Empty;
+			}
 		}
 
 		private static BlockType GenerateFirstSurfaceBlock(int x, int y, BiomeType biome)
