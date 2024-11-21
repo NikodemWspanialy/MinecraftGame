@@ -15,6 +15,9 @@ namespace Hiscraft.GeneratingTerrain
 		private static int seed = 0;
 		private static readonly float Scale = 0.005f;
 		private static readonly float DetailScale = 0.1f;
+		private static float continetalnessScale;
+		private static float erosionScale;
+		private static float peakScale;
 
 		/// <summary>
 		/// Pass seed to perlen noices
@@ -23,6 +26,22 @@ namespace Hiscraft.GeneratingTerrain
 		internal static void Seed(int seeder)
 		{
 			seed = seeder;
+			Noise.Seed = seed;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="seeder"></param>
+		/// <param name="c">Scale for continentalness</param>
+		/// <param name="e">Scale for erosions</param>
+		/// <param name="pv">Scale for Peaks nad valleys</param>
+		internal static void Seed(int seeder, float c, float e, float pv)
+		{
+			seed = seeder;
+			continetalnessScale = c;
+			erosionScale = e;
+			peakScale = pv;
 			Noise.Seed = seed;
 		}
 		/// <summary>
@@ -123,11 +142,13 @@ namespace Hiscraft.GeneratingTerrain
 			{
 				return Height;
 			}
-			float noise = Noise.CalcPixel2D(x, z, Scale) / 256f;
+			float cont = Noise.CalcPixel2D(x, z, continetalnessScale) / 256f;
+			float eros = Noise.CalcPixel2D(x, z, erosionScale) / 256f;
+			float peak = Noise.CalcPixel2D(x, z, peakScale) / 256f;
 
-			float contintalness = CardinalCollections.Continentalness.GetValue(noise);
-			float erosion = CardinalCollections.Erosion.GetValue(noise);
-			float PV = CardinalCollections.Peak.GetValue(noise);
+			float contintalness = CardinalCollections.Continentalness.GetValue(cont);
+			float erosion = CardinalCollections.Erosion.GetValue(eros);
+			float PV = CardinalCollections.Peak.GetValue(peak);
 
 			float heightScale = (contintalness + erosion + PV) / 3;
 			Height = (int)(WorldConst.HIGH * heightScale);

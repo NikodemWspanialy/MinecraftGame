@@ -64,7 +64,12 @@ namespace Hiscraft.WorldModels
 
 			CenterWindow(new Vector2i(width, height));
 
-			Procedural2.Seed(WorldConst.SEED);
+			Procedural2.Seed(
+				seeder: WorldConst.SEED,
+				c: WorldConst.CONTINENTALNESS,
+				e: WorldConst.EROSIONS,
+				pv: WorldConst.PEAKS_AND_VALLEYS
+				);
 		}
 		#endregion
 
