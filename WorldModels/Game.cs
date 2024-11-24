@@ -8,6 +8,7 @@ using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 
 namespace Hiscraft.WorldModels
 {
@@ -46,6 +47,11 @@ namespace Hiscraft.WorldModels
 		/// field for Shader program for every object
 		/// </summary>
 		private Shader shader;
+
+		/// <summary>
+		/// field for Texure for every object
+		/// </summary>
+		private Texture texture;
 		#endregion
 
 
@@ -117,24 +123,23 @@ namespace Hiscraft.WorldModels
 		private async Task PrepareChunks(int chankX, int chankZ)
 		{
 			await Task.Yield();
-			ConsoleWriter.Write($"Change chunk, so new chunks are preparing with center in {chankX}|{chankZ}", ConsoleColor.Blue, ConsoleColor.Yellow);
+			ConsoleWriter.Write($"NEW CENTER IN {chankX}|{chankZ}", ConsoleColor.Blue, ConsoleColor.Red);
 			for (int x = chankX - WorldConst.CHUNK_OFFSET; x <= chankX + WorldConst.CHUNK_OFFSET; ++x)
 			{
 				for (int z = chankZ - WorldConst.CHUNK_OFFSET; z <= chankZ + WorldConst.CHUNK_OFFSET; ++z)
 				{
-					Thread.Sleep(50);
-					await Task.Run(() =>
+					Chunk? chunk;
+					lock (ThreadManager.lockerAllList)
 					{
-						int copiedX = x;
-						int copiedZ = z;
-						Chunk chunk = null!;
-						lock (ThreadManager.lockerAllList)
+						chunk = allChunks.FirstOrDefault(c => c.ChunkPosition.X == x && c.ChunkPosition.Y == z);
+					}
+					if (chunk is null)
+					{
+						Stopwatch sw = Stopwatch.StartNew();
+						await Task.Run(() =>
 						{
-							chunk = allChunks.FirstOrDefault(c => c.ChunkPosition.X == copiedX && c.ChunkPosition.Y == copiedZ);
-						}
-						if (chunk is null)
-						{
-							chunk = new Chunk(copiedX, copiedZ);
+							ConsoleWriter.Write($"Chunk <{x},{z}> was generating...", fontColor: ConsoleColor.Black, backgroundColor: ConsoleColor.Yellow);
+							chunk = new Chunk(x, z);
 							lock (ThreadManager.lockerAllList)
 							{
 								allChunks.Add(chunk);
@@ -143,13 +148,15 @@ namespace Hiscraft.WorldModels
 							{
 								renderChunks.Add(chunk);
 							}
-						}
-						else
-						{
-							ConsoleWriter.Write($"Chunk exists already {copiedX}|{copiedZ}", ConsoleColor.Blue, ConsoleColor.Green);
-							//docelowo tez dodawanie ale to musialbym najpierw usuwac, bo nie ma sensu w tym memencie
-						}
-					});
+							//else
+							//{
+							//	ConsoleWriter.Write($"Chunk exists already {copiedX}|{copiedZ}", ConsoleColor.Blue, ConsoleColor.Green);
+							//	//docelowo tez dodawanie ale to musialbym najpierw usuwac, bo nie ma sensu w tym memencie
+							//}
+							sw.Stop();
+							ConsoleWriter.Write($"Chunk <{x},{z}> was generated in {sw.ElapsedMilliseconds}", fontColor: ConsoleColor.Black, backgroundColor: ConsoleColor.Yellow);
+						});
+					}
 				}
 			}
 
@@ -190,7 +197,9 @@ namespace Hiscraft.WorldModels
 			InitChunks();
 
 			shader = new Shader(FileHelper.GetShaderPath("Default.vert"), FileHelper.GetShaderPath("Default.frag"));
-
+			shader.Use();
+			texture = new Texture(FileHelper.GetTexturePath(WorldConst.TEXTURE_BOOK));
+			texture.Use();
 			GL.Enable(EnableCap.DepthTest);
 
 			camera = new Camera(width, height, new Vector3(0f, 33.4f, 0f));
@@ -203,8 +212,10 @@ namespace Hiscraft.WorldModels
 			{
 				chunk?.Delete();
 			}
+			shader.Unbind();
 			shader.Delete();
-
+			texture.Unbind();
+			texture.Delete();
 		}
 		protected override void OnRenderFrame(FrameEventArgs args)
 		{
@@ -231,21 +242,21 @@ namespace Hiscraft.WorldModels
 					if (chunk.IsReady)
 					{
 
-						chunk.Render(shader);
+						chunk.Render();
 					}
 				}
 			}
 			Context.SwapBuffers();
 		}
+
 		protected override void OnUpdateFrame(FrameEventArgs args)
 		{
 			lock (ThreadManager.locker)
 			{
-				Action action;
-				var result = ThreadManager.ActionToInvokeByMainThreadQueue.TryDequeue(out action);
-				if (result)
+				Action? action;
+				if (ThreadManager.ActionToInvokeByMainThreadQueue.TryDequeue(out action))
 				{
-					action?.Invoke();
+					action();
 				}
 			}
 			MouseState mouse = MouseState;
@@ -258,6 +269,7 @@ namespace Hiscraft.WorldModels
 				CheckChunk();
 			}
 		}
+
 		/// <summary>
 		/// override onKeyDown
 		/// </summary>

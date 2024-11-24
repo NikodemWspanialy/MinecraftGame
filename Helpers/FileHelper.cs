@@ -32,7 +32,7 @@ namespace Hiscraft.Helpers
 			return faceUV;
 		}
 		/// <summary>
-		/// cuttong texture form texture book for semi blocks
+		/// cutting texture form texture book for semi blocks
 		/// </summary>
 		/// <param name="coords"></param>
 		/// <returns></returns>
@@ -55,7 +55,7 @@ namespace Hiscraft.Helpers
 		}
 
 		/// <summary>
-		/// cuttong texture form texture book for cactus
+		/// cutting texture form texture book for cactus
 		/// </summary>
 		/// <param name="coords"></param>
 		/// <returns></returns>

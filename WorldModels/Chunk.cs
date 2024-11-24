@@ -17,10 +17,10 @@ using System.Diagnostics;
 
 namespace Hiscraft.WorldModels
 {
-    /// <summary>
-    /// chunk is main class in that keep blocks, but also graphics pipelines, it is responsible for optimization faces to draw
-    /// </summary>
-    internal class Chunk
+	/// <summary>
+	/// chunk is main class in that keep blocks, but also graphics pipelines, it is responsible for optimization faces to draw
+	/// </summary>
+	internal class Chunk
 	{
 		public bool IsReady = false;
 		#region private fields
@@ -39,19 +39,18 @@ namespace Hiscraft.WorldModels
 		/// </summary>
 		public Vector2i ChunkPosition { get { return chunkPosition; } }
 		#endregion
-		
+
 		#region private graphics fields
 		private VAO chunkVAO;
 		private VBO chunkVertexVBO;
 		private VBO chunkUVVBO;
 		private EBO chunkEBO;
-		private Texture texture;
+		//private Texture texture;
 		#endregion
 
 		#region constructor
 		public Chunk(int positionX, int positionZ)
 		{
-			Stopwatch sw = Stopwatch.StartNew();
 			chunkPosition = new Vector2i(positionX, positionZ);
 			this.position = new Vector3(positionX * WorldConst.CHUNK_SIZE, 0, positionZ * WorldConst.CHUNK_SIZE);
 
@@ -62,8 +61,6 @@ namespace Hiscraft.WorldModels
 
 			GenerateBlocks();
 			PreparePipelines();
-			sw.Stop();
-			ConsoleWriter.Write($"Creating chunk {chunkPosition.X}|{chunkPosition.Y} in time {sw.ElapsedMilliseconds}", ConsoleColor.Red, ConsoleColor.Green);
 		}
 		#endregion
 
@@ -85,7 +82,7 @@ namespace Hiscraft.WorldModels
 						var type = Procedural2.Find(actualchunkX + x, y, actualchunkZ + z);
 						if (type != BlockType.Empty)
 						{
-							Block block = new Block(new Vector3(actualchunkX + x,y,actualchunkZ + z), type);
+							Block block = new Block(new Vector3(actualchunkX + x, y, actualchunkZ + z), type);
 							blocks[x, y, z] = block;
 						}
 					}
@@ -116,13 +113,13 @@ namespace Hiscraft.WorldModels
 		/// <param name="block"></param>
 		private void FindFacesToDraw(Block block)
 		{
-			var x = (int)block.Position.X - (int)position.X; 
+			var x = (int)block.Position.X - (int)position.X;
 			var y = (int)block.Position.Y;
-			var z = (int)block.Position.Z - (int)position.Z; 
+			var z = (int)block.Position.Z - (int)position.Z;
 			int faceCounter = 0;
 			bool DrawAllFaces = ShouldBeAlwaysDraw(x, y, z);
 
-			if (DrawAllFaces || x == 0 || ShouldBeDrawAround(x - 1,y,z))
+			if (DrawAllFaces || x == 0 || ShouldBeDrawAround(x - 1, y, z))
 			{
 				var leftChunkFace = block.GetFace(FacesEnum.LEFT);
 				chunkVertices.AddRange(leftChunkFace.vertices);
@@ -136,7 +133,7 @@ namespace Hiscraft.WorldModels
 				chunkTextureUVs.AddRange(rightChunkFace.uv);
 				++faceCounter;
 			}
-			if (DrawAllFaces || z == WorldConst.CHUNK_SIZE - 1 || ShouldBeDrawAround(x,y,z+1))
+			if (DrawAllFaces || z == WorldConst.CHUNK_SIZE - 1 || ShouldBeDrawAround(x, y, z + 1))
 			{
 				var frontChunkFace = block.GetFace(FacesEnum.FRONT);
 				chunkVertices.AddRange(frontChunkFace.vertices);
@@ -151,14 +148,14 @@ namespace Hiscraft.WorldModels
 				++faceCounter;
 			}
 
-			if (DrawAllFaces || y == WorldConst.HIGH- 1 || ShouldBeDrawAround(x,y+1,z))
+			if (DrawAllFaces || y == WorldConst.HIGH - 1 || ShouldBeDrawAround(x, y + 1, z))
 			{
 				var topChunkFace = block.GetFace(FacesEnum.TOP);
 				chunkVertices.AddRange(topChunkFace.vertices);
 				chunkTextureUVs.AddRange(topChunkFace.uv);
 				++faceCounter;
 			}
-			if (DrawAllFaces || y == 0 || ShouldBeDrawAround(x,y-1,z))
+			if (DrawAllFaces || y == 0 || ShouldBeDrawAround(x, y - 1, z))
 			{
 
 				var bottomChunkFace = block.GetFace(FacesEnum.BOTTOM);
@@ -196,7 +193,7 @@ namespace Hiscraft.WorldModels
 		/// <returns>should be draw block next to or not</returns>
 		private bool ShouldBeDrawAround(int x, int y, int z)
 		{
-			if (blocks[x,y,z] is null) { return true; }
+			if (blocks[x, y, z] is null) { return true; }
 			if (BlockTypeInfo.noCoveringBlocks.Contains(blocks[x, y, z].BlockType)) { return true; }
 			return false;
 		}
@@ -210,7 +207,7 @@ namespace Hiscraft.WorldModels
 		/// <returns></returns>
 		private bool ShouldBeAlwaysDraw(int x, int y, int z)
 		{
-			if (BlockTypeInfo.alwaysDrawBlocks.Contains(blocks[x, y, z].BlockType)){ return true; }
+			if (BlockTypeInfo.alwaysDrawBlocks.Contains(blocks[x, y, z].BlockType)) { return true; }
 			return false;
 		}
 		/// <summary>
@@ -220,29 +217,22 @@ namespace Hiscraft.WorldModels
 		{
 			lock (ThreadManager.locker)
 			{
-			ThreadManager.ActionToInvokeByMainThreadQueue.Enqueue(() =>
-			{
-				Stopwatch stopwatch = Stopwatch.StartNew();
-				chunkVAO = new VAO();
-				chunkVAO.Use();
-
-				chunkVertexVBO = new VBO(chunkVertices);
-				chunkVertexVBO.Use();
-				chunkVAO.ConnectVBO(0, 3, chunkVertexVBO);
-
-				chunkUVVBO = new VBO(chunkTextureUVs);
-				chunkUVVBO.Use();
-				chunkVAO.ConnectVBO(1, 2, chunkUVVBO);
-
-				chunkEBO = new EBO(chunkIndices);
-
-				texture = new Texture(FileHelper.GetTexturePath(WorldConst.TEXTURE_BOOK));
-				stopwatch.Stop();
-				ConsoleWriter.Write($"Prepare chunks pipelines for {position.X}|{position.Z} in time {stopwatch.ElapsedMilliseconds}", ConsoleColor.White, ConsoleColor.Blue);
-				IsReady = true;
-			});
+				ThreadManager.ActionToInvokeByMainThreadQueue.Enqueue(() =>
+				{
+					chunkVAO = new VAO();
+					chunkVAO.Use();
+					chunkVertexVBO = new VBO(chunkVertices);
+					chunkVertexVBO.Use();
+					chunkVAO.ConnectVBO(0, 3, chunkVertexVBO);
+					chunkUVVBO = new VBO(chunkTextureUVs);
+					chunkUVVBO.Use();
+					chunkVAO.ConnectVBO(1, 2, chunkUVVBO);
+					chunkEBO = new EBO(chunkIndices);
+					//ConsoleWriter.Write($"Prepare pipelines for <{chunkPosition.X},{chunkPosition.Y}>", ConsoleColor.White, ConsoleColor.Blue);
+					IsReady = true;
+				});
 			}
-		} 
+		}
 		#endregion
 
 		#region public functions
@@ -251,23 +241,15 @@ namespace Hiscraft.WorldModels
 		/// Function that draw the whole chunk
 		/// </summary>
 		/// <param name="program">as a parameter it takes shader prgoram</param>
-		public void Render(Shader shader)
+		public void Render()
 		{
-			//bind pipeliens
-			lock (ThreadManager.locker)
-			{
-			shader.Use();
-			chunkVAO.Use();
-			chunkEBO.Use();
-			texture.Use();
-			//draw
-			GL.DrawElements(PrimitiveType.Triangles, chunkIndices.Count, DrawElementsType.UnsignedInt, 0);
-			//unbind pipelines
-			chunkEBO.Unbind();
-			chunkVAO.Unbind();
-			texture.Unbind();
-			}
-
+				chunkVAO.Use();
+				chunkEBO.Use();
+				//draw
+				GL.DrawElements(PrimitiveType.Triangles, chunkIndices.Count, DrawElementsType.UnsignedInt, 0);
+				//unbind pipelines
+				chunkEBO.Unbind();
+				chunkVAO.Unbind();
 		}
 
 		/// <summary>
@@ -279,7 +261,6 @@ namespace Hiscraft.WorldModels
 			chunkVertexVBO?.Delete();
 			chunkUVVBO?.Delete();
 			chunkEBO?.Delete();
-			texture?.Delete();
 		}
 		#endregion
 	}
