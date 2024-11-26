@@ -306,6 +306,17 @@ namespace Hiscraft.WorldModels
 			{
 				Close();
 			}
+			if (e.Key == Keys.F)
+			{
+				if (!IsFullscreen)
+				{
+					WindowState = WindowState.Fullscreen;
+				}
+				else
+				{
+					WindowState = WindowState.Normal;
+				}
+			}
 		}
 
 		#endregion
