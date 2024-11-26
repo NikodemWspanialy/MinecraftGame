@@ -124,10 +124,19 @@ namespace Hiscraft.WorldModels
 		{
 			await Task.Yield();
 			ConsoleWriter.Write($"NEW CENTER IN {chankX}|{chankZ}", ConsoleColor.Blue, ConsoleColor.Red);
+
+
 			for (int x = chankX - WorldConst.CHUNK_OFFSET; x <= chankX + WorldConst.CHUNK_OFFSET; ++x)
 			{
 				for (int z = chankZ - WorldConst.CHUNK_OFFSET; z <= chankZ + WorldConst.CHUNK_OFFSET; ++z)
 				{
+					lock (ThreadManager.lockerRenderList)
+					{
+						if (null != renderChunks.FirstOrDefault(c => c.ChunkPosition.X == x && c.ChunkPosition.Y == z))
+						{
+							continue;
+						}
+					}
 					Chunk? chunk;
 					lock (ThreadManager.lockerAllList)
 					{
@@ -148,18 +157,35 @@ namespace Hiscraft.WorldModels
 							{
 								renderChunks.Add(chunk);
 							}
-							//else
-							//{
-							//	ConsoleWriter.Write($"Chunk exists already {copiedX}|{copiedZ}", ConsoleColor.Blue, ConsoleColor.Green);
-							//	//docelowo tez dodawanie ale to musialbym najpierw usuwac, bo nie ma sensu w tym memencie
-							//}
 							sw.Stop();
 							ConsoleWriter.Write($"Chunk <{x},{z}> was generated in {sw.ElapsedMilliseconds}", fontColor: ConsoleColor.Black, backgroundColor: ConsoleColor.Yellow);
 						});
 					}
+					else
+					{
+						lock (ThreadManager.lockerRenderList)
+						{
+							renderChunks.Add(chunk);
+							ConsoleWriter.Write($"Chunk <{x},{z}> was successfully again added to render list", fontColor: ConsoleColor.Black, backgroundColor: ConsoleColor.Blue);
+						}
+					}
 				}
 			}
-
+			IEnumerable<Chunk>? chunkThatExist = [];
+			lock (ThreadManager.lockerAllList)
+			{
+				chunkThatExist = allChunks.Where(c => c.ChunkPosition.X < chankX - WorldConst.CHUNK_OFFSET
+								|| c.ChunkPosition.X > chankX + WorldConst.CHUNK_OFFSET
+								|| c.ChunkPosition.Y < chankZ - WorldConst.CHUNK_OFFSET
+								|| c.ChunkPosition.Y > chankZ + WorldConst.CHUNK_OFFSET);
+			}
+			if (chunkThatExist.Count() != 0)
+			{
+				lock (ThreadManager.lockerRenderList)
+				{
+					renderChunks.RemoveAll(c => chunkThatExist.Contains(c));
+				}
+			}
 		}
 
 		/// <summary>
