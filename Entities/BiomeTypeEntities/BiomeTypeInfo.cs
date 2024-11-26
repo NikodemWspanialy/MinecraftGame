@@ -7,8 +7,14 @@ using System.Threading.Tasks;
 
 namespace Hiscraft.Entities.BiomeTypeEntities
 {
+	/// <summary>
+	/// static class handling informations about biome type.
+	/// </summary>
 	internal static class BiomeTypeInfo
 	{
+	/// <summary>
+	/// Dictionary of every biome and all blocks defined for it.
+	/// </summary>
 		internal static readonly Dictionary<BiomeType, Dictionary<BiomeBlockType, BlockType>> BiomesDefinedBlocks = new Dictionary<BiomeType, Dictionary<BiomeBlockType, BlockType>>
 		{
 			{

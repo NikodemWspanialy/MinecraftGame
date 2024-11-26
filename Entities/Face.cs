@@ -3,7 +3,7 @@
 namespace Hiscraft.Entities
 {
 	/// <summary>
-	/// class handle verticles and texture UV
+	/// Class handle verticles and texture UV.
 	/// </summary>
 	internal class Face
 	{

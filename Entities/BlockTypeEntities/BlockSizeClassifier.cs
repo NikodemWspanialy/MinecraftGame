@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Hiscraft.Entities.BlockTypeEntities
 {
+	/// <summary>
+	/// enum of all block size type.
+	/// </summary>
 	internal enum BlockSizeClassifier
 	{
 		Normal, 

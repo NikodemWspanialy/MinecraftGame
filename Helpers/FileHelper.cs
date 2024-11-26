@@ -5,12 +5,12 @@ using OpenTK.Mathematics;
 namespace Hiscraft.Helpers
 {
 	/// <summary>
-	/// static class provides methods that help using files
+	/// Static class provides methods that help using files.
 	/// </summary>
 	internal static class FileHelper
 	{
 		/// <summary>
-		/// GetUVsFromBook is cutting out required texture from texture book
+		/// GetUVsFromBook is cutting out required texture from texture book.
 		/// </summary>
 		/// <param name="coords"></param>
 		/// <returns></returns>
@@ -32,7 +32,7 @@ namespace Hiscraft.Helpers
 			return faceUV;
 		}
 		/// <summary>
-		/// cutting texture form texture book for semi blocks
+		/// Cutting texture form texture book for semi blocks.
 		/// </summary>
 		/// <param name="coords"></param>
 		/// <returns></returns>
@@ -55,7 +55,7 @@ namespace Hiscraft.Helpers
 		}
 
 		/// <summary>
-		/// cutting texture form texture book for cactus
+		/// Cutting texture form texture book for cactus.
 		/// </summary>
 		/// <param name="coords"></param>
 		/// <returns></returns>
@@ -91,7 +91,7 @@ namespace Hiscraft.Helpers
 		}
 
 		/// <summary>
-		/// GetTexturePat add to texture name path
+		/// GetTexturePat add to texture name path.
 		/// </summary>
 		/// <param name="name">texture name</param>
 		/// <returns>texture full path</returns>
@@ -101,7 +101,7 @@ namespace Hiscraft.Helpers
 			return WorldConst.texturesPathDEBUG + name;
 		}
 		/// <summary>
-		/// GetShaderPath add to shader name path
+		/// GetShaderPath add to shader name path.
 		/// </summary>
 		/// <param name="name">shader name</param>
 		/// <returns>shader full path</returns>

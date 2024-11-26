@@ -6,32 +6,108 @@ using SimplexNoise;
 
 namespace Hiscraft.GeneratingTerrain
 {
-	internal class Procedural2
+	/// <summary>
+	/// Class which is rensonse for procedural world generating.
+	/// </summary>
+	internal class ProceduralGeneration
 	{
+		/// <summary>
+		/// Dictionary od terrain heigh for speed up calculating.
+		/// </summary>
 		private static Dictionary<Vector2, int> terrainHeight = [];
 
+		/// <summary>
+		/// Seed for world, make it original for every world passed by user.
+		/// </summary>
 		private static int seed;
+
+		/// <summary>
+		/// Scale of use and impact of continentalness in generating by user.
+		/// </summary>
 		private static float continetalnessScale;
+
+		/// <summary>
+		/// Scale of use and impact of erosion in generating by user.
+		/// </summary>
 		private static float erosionScale;
+
+		/// <summary>
+		/// Scale of use and impact of peak and valley in generating by user.
+		/// </summary>
 		private static float peakScale;
+
+		/// <summary>
+		/// Scale of tree generation density by user.
+		/// </summary>
 		private static float treeScale;
+
+		/// <summary>
+		/// Scale of other elements generating on the world surface by user.
+		/// </summary>
 		private static float congestionScale;
+
+		/// <summary>
+		/// World high by user.
+		/// </summary>
 		private static int high;
-		private static int water;
+
+		/// <summary>
+		/// Scale of water generating by user.
+		/// </summary>
+		private static int waterScale;
+
+		/// <summary>
+		/// Scale of natural resources generating underground by user.
+		/// </summary>
 		private static int naturalResources;
 
+		/// <summary>
+		/// Private encalculated continentalness offset.
+		/// </summary>
 		private static int continentalnessOffset = 1;
+
+		/// <summary>
+		/// Private encalculated erosion offset.
+		/// </summary>
 		private static int erosionOffset = 2;
+
+		/// <summary>
+		/// Private encalculated peak and valley offset.
+		/// </summary>
 		private static int peakOffset = 3;
+
+		/// <summary>
+		/// Private encalculated dirt level offset.
+		/// </summary>
 		private static int dirtLevelOffset = 4;
+
+		/// <summary>
+		/// Private encalculated biome offset.
+		/// </summary>
 		private static int biomeOffset = 5;
+
+		/// <summary>
+		/// Private encalculated entiy offset.
+		/// </summary>
 		private static int entityOffset = 6;
+
+		/// <summary>
+		/// Private encalculated diamond offset.
+		/// </summary>
 		private static int diamondOffset = 7;
+
+		/// <summary>
+		/// Private encalculated gold offset.
+		/// </summary>
 		private static int goldOffset = 8;
+
+		/// <summary>
+		/// Private encalculated redstone offset.
+		/// </summary>
 		private static int redstoneOffset = 9;
 
 		/// <summary>
-		/// seed all values, nust be invoke before Genering blocks
+		/// seed all values, nust be called before Genering blocks.
 		/// </summary>
 		/// <param name="seeder"></param>
 		/// <param name="continetalness">Scale for continentalness</param>
@@ -50,7 +126,7 @@ namespace Hiscraft.GeneratingTerrain
 			peakScale = peakAndValley;
 			treeScale = tree;
 			high = highLevel;
-			Procedural2.water = water;
+			ProceduralGeneration.waterScale = water;
 			congestionScale = details;
 			naturalResources = naturalResourcesRate;
 			Noise.Seed = seed;
@@ -67,12 +143,12 @@ namespace Hiscraft.GeneratingTerrain
 		}
 
 		/// <summary>
-		/// Main static method for finding blocks
+		/// Main static method for finding blocks.
 		/// </summary>
 		/// <param name="x">coord X</param>
 		/// <param name="y">coord Y</param>
 		/// <param name="z">coord Z</param>
-		/// <returns>BlockType on coords</returns>
+		/// <returns>BlockType on passed coords</returns>
 		internal static BlockType Find(int x, int y, int z)
 		{
 			if (y == 0)
@@ -107,12 +183,12 @@ namespace Hiscraft.GeneratingTerrain
 
 		#region Additional methods
 		/// <summary>
-		/// Draw all blocks every single block from BlockType  -> infinity
+		/// Draw all blocks every single block from BlockType  -> infinity.
 		/// </summary>
 		/// <param name="x"></param>
 		/// <param name="y"></param>
 		/// <param name="z"></param>
-		/// <returns></returns>
+		/// <returns>BlockType on passed coords</returns>
 		internal static BlockType ShowAllBlocks(int x, int y, int z)
 		{
 			var enums = Enum.GetValues<BlockType>();
@@ -129,12 +205,12 @@ namespace Hiscraft.GeneratingTerrain
 		}
 
 		/// <summary>
-		/// Show terrain HiGh algorithm, draw only stone and grass on top layer 
+		/// Show terrain HiGh algorithm, draw only stone and grass on top layer .
 		/// </summary>
 		/// <param name="x"></param>
 		/// <param name="y"></param>
 		/// <param name="z"></param>
-		/// <returns></returns>
+		/// <returns>BlockType on passed coords</returns>
 		internal static BlockType GenOnlyTerrainHeight(int x, int y, int z)
 		{
 			int height = GenerateTerrainHeight(x, z);
@@ -149,7 +225,13 @@ namespace Hiscraft.GeneratingTerrain
 		}
 		#endregion
 
-		#region private funcs
+		#region private functions
+		/// <summary>
+		/// Generain terrain height calculated from param. Calculated with noises functions
+		/// </summary>
+		/// <param name="x">Coord X</param>
+		/// <param name="z">Coord Z</param>
+		/// <returns>Height of world in passed coordinates</returns>
 		private static int GenerateTerrainHeight(int x, int z)
 		{
 			int Height;
@@ -173,7 +255,12 @@ namespace Hiscraft.GeneratingTerrain
 			return Height;
 
 		}
-
+		/// <summary>
+		/// Generate biome, calculating base on noises.
+		/// </summary>
+		/// <param name="x">Coord X</param>
+		/// <param name="z">Coord Z</param>
+		/// <returns>Biome type in passed coordinates</returns>
 		private static BiomeType GenerateBiome(int x, int z)
 		{
 			float noise = Noise.CalcPixel2D(x + biomeOffset, z - biomeOffset, 0.0001f) / 256f;
@@ -192,13 +279,20 @@ namespace Hiscraft.GeneratingTerrain
 
 		}
 
+		/// <summary>
+		/// Generate top levels of world. Base on noises.
+		/// </summary>
+		/// <param name="x">Coord X</param>
+		/// <param name="z">Coord Z</param>
+		/// <param name="biome">Type of biome</param>
+		/// <returns>Block type calculated, specify for passed coordinates and biome type</returns>
 		private static BlockType GenerateSurface(int x, int z, BiomeType biome)
 		{
 
 			float peak = Noise.CalcPixel2D(x, z, peakScale) / 256f;
 			float PV = CardinalCollections.Peak.GetValue(peak);
 
-			if (PV <= (0.2f*(water/10f)))
+			if (PV <= (0.2f*(waterScale/10f)))
 			{
 				return BiomeTypeInfo.BiomesDefinedBlocks[biome][BiomeBlockType.WaterType];
 			}
@@ -208,11 +302,24 @@ namespace Hiscraft.GeneratingTerrain
 			}
 		}
 
+		/// <summary>
+		/// Generating number of top levels dirt layers.
+		/// </summary>
+		/// <param name="x">Coord X</param>
+		/// <param name="z">Coord Z</param>
+		/// <returns>number of top levels dirt layers</returns>
 		private static int GenerateDirtHeight(int x, int z)
 		{
 			return (int)Math.Floor(Noise.CalcPixel2D(x + dirtLevelOffset, z - dirtLevelOffset, 0.05f) / 256f * 7);
 		}
 
+		/// <summary>
+		/// Genenera underground world, based on noises.
+		/// </summary>
+		/// <param name="x">Coord X</param>
+		/// <param name="y">Coord Y</param>
+		/// <param name="z">Coord Z</param>
+		/// <returns>Block type calculated from coordinates</returns>
 		private static BlockType GenerateUnderGroundLayer(int x, int y, int z)
 		{
 			var value = Noise.CalcPixel3D(x, y, z, 0.02f) / 256f;
@@ -245,6 +352,15 @@ namespace Hiscraft.GeneratingTerrain
 			return BlockType.Stone;
 		}
 
+		/// <summary>
+		/// Generating special blocks on wirld surface.
+		/// </summary>
+		/// <param name="x">Coord X</param>
+		/// <param name="y">Coord Y</param>
+		/// <param name="z">Coord Z</param>
+		/// <param name="terrainHeight"> High of world</param>
+		/// <param name="biome">iome in passed coords</param>
+		/// <returns>Block type for coordinates, calculated with noises.</returns>
 		private static BlockType GenerateEntitiesOnSurface(int x, int y, int z, int terrainHeight, BiomeType biome)
 		{
 			if (y - 1 == terrainHeight)
@@ -297,6 +413,13 @@ namespace Hiscraft.GeneratingTerrain
 			return BlockType.Empty;
 		}
 
+		/// <summary>
+		/// Generating tree on world. Calculating bases on noises.
+		/// </summary>
+		/// <param name="x">Coord X</param>
+		/// <param name="z">Coord Z</param>
+		/// <param name="biome">Biome type</param>
+		/// <returns>Block type calculated for coordinates.</returns>
 		private static BlockType GenerateThreeOnSurface(int x, int z, BiomeType biome)
 		{
 			int value = (int)(100 * (Math.Round(Noise.CalcPixel2D(x, z, 0.5f) / 256f, 2)));
@@ -310,6 +433,13 @@ namespace Hiscraft.GeneratingTerrain
 			}
 		}
 
+		/// <summary>
+		/// Generate top level of ground. Base on noises. Finding water.
+		/// </summary>
+		/// <param name="x">Coord X</param>
+		/// <param name="z">Coord Z</param>
+		/// <param name="biome">Biome type</param>
+		/// <returns>Block type calculated for coordinates.</returns>
 		private static BlockType GenerateFirstSurfaceBlock(int x, int z, BiomeType biome)
 		{
 			int value = (int)(100 * (Math.Round(Noise.CalcPixel2D(x + entityOffset, z - entityOffset, 0.5f) / 256f, 2)));

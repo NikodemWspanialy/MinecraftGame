@@ -1,7 +1,7 @@
 ﻿namespace Hiscraft.Entities
 {
 	/// <summary>
-	/// all 6 faces of every standard block, created for generalization prject
+	/// Class handling standard faces in block.
 	/// </summary>
 	internal enum FacesEnum
 	{

@@ -4,6 +4,9 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace Hiscraft.WorldModels
 {
+	/// <summary>
+	/// Class for main camera.
+	/// </summary>
 	internal class Camera
 	{
 		#region private fields
@@ -11,6 +14,9 @@ namespace Hiscraft.WorldModels
 		private float height;
 		private Vector3 position;
 		private bool firstMove = true;
+		/// <summary>
+		/// Property of last position of camera.
+		/// </summary>
 		public Vector2 lastPos;
 
 		private Vector3 up = Vector3.UnitY;
@@ -27,7 +33,7 @@ namespace Hiscraft.WorldModels
 
 		#region properties
 		/// <summary>
-		/// position getter
+		/// position getter.
 		/// </summary>
 		public Vector3 Position { get { return position; } }
 
@@ -35,7 +41,7 @@ namespace Hiscraft.WorldModels
 
 		#region constructor
 		/// <summary>
-		/// constructor for camera class 
+		/// constructor for camera class.
 		/// </summary>
 		/// <param name="width"> screen width</param>
 		/// <param name="height">screen height</param>
@@ -51,7 +57,7 @@ namespace Hiscraft.WorldModels
 		#region public functions
 
 		/// <summary>
-		/// create for view matrix
+		/// Create for view matrix.
 		/// </summary>
 		/// <returns>view matrix4</returns>
 		public Matrix4 GetViewMatrix()
@@ -59,7 +65,7 @@ namespace Hiscraft.WorldModels
 			return Matrix4.LookAt(position, position + front, up);
 		}
 		/// <summary>
-		/// creare projection matrix
+		/// Creare projection matrix.
 		/// </summary>
 		/// <returns>projection matrix4</returns>
 		public Matrix4 GetProjectionMatrix()
@@ -68,7 +74,7 @@ namespace Hiscraft.WorldModels
 		}
 
 		/// <summary>
-		/// update camera position to controle state
+		/// Update camera position to controle state.
 		/// </summary>
 		/// <param name="keyboardState">keyboard action</param>
 		/// <param name="mouseState">mouse action</param>
@@ -122,7 +128,7 @@ namespace Hiscraft.WorldModels
 
 		#region private function
 		/// <summary>
-		/// Updating vectors
+		/// Updating vectors.
 		/// </summary>
 		private void UpdateVectors()
 		{

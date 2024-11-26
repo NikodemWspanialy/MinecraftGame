@@ -4,16 +4,17 @@ using OpenTK.Graphics.OpenGL4;
 namespace Hiscraft.GraphicModels
 {
 	/// <summary>
-	/// Shader program class
+	/// Shader program class.
 	/// </summary>
 	internal class Shader
 	{
 		/// <summary>
-		/// handler for OpenGL
+		/// Handler for OpenGL.
 		/// </summary>
 		int ID;
+
 		/// <summary>
-		/// cotr -> loading shaders .vert and .frag
+		/// Constructor -> loading shaders .vert and .frag.
 		/// </summary>
 		/// <param name="vertPath">.vert shader path</param>
 		/// <param name="fragpath">.frag shader path</param>
@@ -67,19 +68,19 @@ namespace Hiscraft.GraphicModels
 			GL.DeleteShader(VertexShader);
 		}
 		/// <summary>
-		/// Getter for ID
+		/// Getter for ID.
 		/// </summary>
 		/// <returns>shader program ID</returns>
 		public int GetShaderId() => ID;
 		/// <summary>
-		/// Bind shader program in OpenGL
+		/// Bind shader program in OpenGL.
 		/// </summary>
 		public void Use()
 		{
 			GL.UseProgram(ID);
 		}
 		/// <summary>
-		/// Set ShaderProgram in OpenGL to 0
+		/// Set ShaderProgram in OpenGL to 0.
 		/// </summary>
 		public void Unbind()
 		{
@@ -87,7 +88,7 @@ namespace Hiscraft.GraphicModels
 		}
 
 		/// <summary>
-		/// Delete shader program from graphics card
+		/// Delete shader program from graphics card.
 		/// </summary>
 		/// <param name="disposing"></param>
 		public void Delete()

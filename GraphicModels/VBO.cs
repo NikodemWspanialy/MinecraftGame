@@ -4,16 +4,16 @@ using OpenTK.Mathematics;
 namespace Hiscraft.GraphicModels
 {
 	/// <summary>
-	/// Vertex buffer obnect class
+	/// Vertex buffer obnect class.
 	/// </summary>
 	internal class VBO
 	{
 		/// <summary>
-		/// handler for openGL
+		/// Handler for openGL.
 		/// </summary>
 		private int ID;
 		/// <summary>
-		/// constructor for uv coordinates
+		/// Constructor for uv coordinates.
 		/// </summary>
 		/// <param name="data">list of uv positions</param>
 		public VBO(List<Vector2> data)
@@ -23,7 +23,7 @@ namespace Hiscraft.GraphicModels
 			GL.BufferData(BufferTarget.ArrayBuffer, data.Count * Vector2.SizeInBytes, data.ToArray(), BufferUsageHint.StaticDraw);
 		}
 		/// <summary>
-		/// coinstructor for vertices of  
+		/// Coinstructor for vertices.
 		/// </summary>
 		/// <param name="data">list of verices positions</param>
 		public VBO(List<Vector3> data)
@@ -33,15 +33,15 @@ namespace Hiscraft.GraphicModels
 			GL.BufferData(BufferTarget.ArrayBuffer, data.Count * Vector3.SizeInBytes, data.ToArray(), BufferUsageHint.StaticDraw);
 		}
 		/// <summary>
-		/// Use is binding this BVO to ArrayBuffer
+		/// Use is binding this BVO to ArrayBuffer.
 		/// </summary>
 		public void Use() { GL.BindBuffer(BufferTarget.ArrayBuffer, ID); }
 		/// <summary>
-		/// Unbind is clearing ArrayBuffer bind (set it to 0)
+		/// Unbind is clearing ArrayBuffer bind (set it to 0).
 		/// </summary>
 		public static void Unbind() { GL.BindBuffer(BufferTarget.ArrayBuffer, 0); }
 		/// <summary>
-		/// Delete VBO from graphics card
+		/// Delete VBO from graphics card.
 		/// </summary>
 		public void Delete() { GL.DeleteBuffer(ID); }
 	}

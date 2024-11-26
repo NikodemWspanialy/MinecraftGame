@@ -1,13 +1,23 @@
 ﻿namespace Hiscraft.Entities.BlockTypeEntities
 {
+	/// <summary>
+	/// Class handling all block types information.
+	/// </summary>
 	internal static class BlockTypeInfo
 	{
-
+		/// <summary>
+		/// Static list of block, which is not covering all block.
+		/// </summary>
 		internal static List<BlockType> noCoveringBlocks = new()
 		{
 			BlockType.Empty,
 			BlockType.SemiGrass,
+			BlockType.Cactus,
 		};
+
+		/// <summary>
+		/// Static list of special blocks, that should be draw in every case
+		/// </summary>
 		internal static List<BlockType> alwaysDrawBlocks = new()
 		{
 			BlockType.Coal,
@@ -16,6 +26,9 @@
 			BlockType.Redstone,
 		};
 
+		/// <summary>
+		/// Static dictionary, where block type size is defined.
+		/// </summary>
 		internal static Dictionary<BlockType, BlockSizeClassifier> BlockSizeCollections = new Dictionary<BlockType, BlockSizeClassifier>()
 		{
 			{BlockType.SemiGrass, BlockSizeClassifier.Semi },

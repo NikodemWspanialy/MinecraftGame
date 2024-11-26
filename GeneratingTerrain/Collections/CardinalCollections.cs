@@ -7,8 +7,14 @@ using System.Threading.Tasks;
 
 namespace Hiscraft.GeneratingTerrain.Collections
 {
+	/// <summary>
+	/// Static class handling collections of cardinal splite.
+	/// </summary>
 	internal static class CardinalCollections
 	{
+		/// <summary>
+		/// Static cardinal splite handling definition of continentalness function.
+		/// </summary>
 		static internal readonly CardinalSplite Continentalness = new CardinalSplite(new List<Point>
 			{
 				new() {
@@ -45,6 +51,10 @@ namespace Hiscraft.GeneratingTerrain.Collections
 				},
 
 			});
+
+		/// <summary>
+		/// Static cardinal splite handling definition of erosion function.
+		/// </summary>
 		static internal readonly CardinalSplite Erosion = new CardinalSplite(new List<Point>
 			{
 				new() {
@@ -97,6 +107,10 @@ namespace Hiscraft.GeneratingTerrain.Collections
 				},
 
 			});
+
+		/// <summary>
+		/// Static cardinal splite handling definition of peak and valley function.
+		/// </summary>
 		static internal readonly CardinalSplite Peak = new CardinalSplite(new List<Point>
 			{
 				new() {

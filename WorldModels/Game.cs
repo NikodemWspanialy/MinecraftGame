@@ -39,17 +39,17 @@ namespace Hiscraft.WorldModels
 
 		#region privates fields
 		/// <summary>
-		/// width and height of window
+		/// Width and height of window.
 		/// </summary>
 		private int width, height;
 
 		/// <summary>
-		/// field for Shader program for every object
+		/// Field for Shader program for every object.
 		/// </summary>
 		private Shader shader;
 
 		/// <summary>
-		/// field for Texure for every object
+		/// Field for Texure for every object.
 		/// </summary>
 		private Texture texture;
 		#endregion
@@ -57,7 +57,7 @@ namespace Hiscraft.WorldModels
 
 		#region ctor
 		/// <summary>
-		/// ctor with 2 parameter
+		/// Constructor with 2 parameter.
 		/// </summary>
 		/// <param name="width">window width</param>
 		/// <param name="height">window height</param>
@@ -70,7 +70,7 @@ namespace Hiscraft.WorldModels
 
 			CenterWindow(new Vector2i(width, height));
 
-			Procedural2.Prepare(
+			ProceduralGeneration.Prepare(
 				seeder: WorldConst.SEED,
 				continetalness: WorldConst.CONTINENTALNESS,
 				erosion: WorldConst.EROSIONS,
@@ -87,7 +87,7 @@ namespace Hiscraft.WorldModels
 
 		#region private methods to managment game
 		/// <summary>
-		/// Initialize first chunks
+		/// Initialize first chunks.
 		/// </summary>
 		private void InitChunks()
 		{
@@ -118,7 +118,7 @@ namespace Hiscraft.WorldModels
 		}
 
 		/// <summary>
-		/// Prepare new chunks after changing a camera position, as argument passed center chunk (camera position)
+		/// Prepare new chunks after changing a camera position, as argument passed center chunk (camera position).
 		/// </summary>
 		private async Task PrepareChunks(int chankX, int chankZ)
 		{
@@ -163,7 +163,7 @@ namespace Hiscraft.WorldModels
 		}
 
 		/// <summary>
-		/// check camera position chunk and call creating new chunk 
+		/// Check camera position chunk and call creating new chunk.
 		/// </summary>
 		private void CheckChunk()
 		{

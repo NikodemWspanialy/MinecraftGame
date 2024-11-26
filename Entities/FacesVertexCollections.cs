@@ -3,12 +3,12 @@
 namespace Hiscraft.Entities
 {
 	/// <summary>
-	/// static class that keeps all vertex collection (block, half block etc.)
+	/// Static class that handle all vertex collection (block, half block etc.).
 	/// </summary>
 	internal static class FacesVertexCollections
 	{
 		/// <summary>
-		/// Vertex collection for simple 1x1x1 block
+		/// Vertex collection for simple 1x1x1 block.
 		/// </summary>
 		internal static readonly Dictionary<FacesEnum, List<Vector3>> BlocksVertexCollection = new()
 		{
@@ -57,7 +57,7 @@ namespace Hiscraft.Entities
 		};
 
 		/// <summary>
-		/// Vertex collection for semiblocks
+		/// Vertex collection for semiblocks.
 		/// </summary>
 		internal static readonly Dictionary<FacesEnum, List<Vector3>> SemiBlocksVertexCollection = new()
 		{
@@ -108,7 +108,7 @@ namespace Hiscraft.Entities
 		private static float CactusOffset = 1f / 16f; 
 
 		/// <summary>
-		/// Vertex collection for cactus
+		/// Vertex collection for cactus.
 		/// </summary>
 		internal static readonly Dictionary<FacesEnum, List<Vector3>> CactusVertexCollection = new()
 		{

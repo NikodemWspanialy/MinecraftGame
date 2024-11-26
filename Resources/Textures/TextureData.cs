@@ -5,12 +5,12 @@ using Hiscraft.Entities.BlockTypeEntities;
 namespace Hiscraft.Resources.Textures
 {
     /// <summary>
-    /// static class that hadle texture data
+    /// Static class that hadle texture data.
     /// </summary>
     internal static class TextureData
     {
         /// <summary>
-        /// blockUV keeps uvs for every block type
+        /// BlockUV keeps uvs for every block type.
         /// </summary>
         public static Dictionary<BlockType, Dictionary<FacesEnum, Vector2>> blocksUV = new Dictionary<BlockType, Dictionary<FacesEnum, Vector2>>()
         {

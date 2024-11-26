@@ -35,7 +35,7 @@ namespace Hiscraft.WorldModels
 
 		#region public properties
 		/// <summary>
-		/// chunk position getter
+		/// Chunk position getter.
 		/// </summary>
 		public Vector2i ChunkPosition { get { return chunkPosition; } }
 		#endregion
@@ -49,6 +49,11 @@ namespace Hiscraft.WorldModels
 		#endregion
 
 		#region constructor
+		/// <summary>
+		/// Constructor for chunk.
+		/// </summary>
+		/// <param name="positionX">Coord X of chunk</param>
+		/// <param name="positionZ">Coord Z of chunk</param>
 		public Chunk(int positionX, int positionZ)
 		{
 			chunkPosition = new Vector2i(positionX, positionZ);
@@ -79,7 +84,7 @@ namespace Hiscraft.WorldModels
 				{
 					for (int z = 0; z < WorldConst.CHUNK_SIZE; z++)
 					{
-						var type = Procedural2.Find(actualchunkX + x, y, actualchunkZ + z);
+						var type = ProceduralGeneration.Find(actualchunkX + x, y, actualchunkZ + z);
 						if (type != BlockType.Empty)
 						{
 							Block block = new Block(new Vector3(actualchunkX + x, y, actualchunkZ + z), type);
@@ -238,7 +243,7 @@ namespace Hiscraft.WorldModels
 		#region public functions
 
 		/// <summary>
-		/// Function that draw the whole chunk
+		/// Function that draw the whole chunk.
 		/// </summary>
 		/// <param name="program">as a parameter it takes shader prgoram</param>
 		public void Render()
@@ -253,7 +258,7 @@ namespace Hiscraft.WorldModels
 		}
 
 		/// <summary>
-		/// Delete method is deleting all graphics pipelines, textures 
+		/// Delete method is deleting all graphics pipelines, textures. 
 		/// </summary>
 		public void Delete()
 		{
