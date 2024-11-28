@@ -292,7 +292,7 @@ namespace Hiscraft.GeneratingTerrain
 			float peak = Noise.CalcPixel2D(x, z, peakScale) / 256f;
 			float PV = CardinalCollections.Peak.GetValue(peak);
 
-			if (PV <= (0.2f*(waterScale/10f)))
+			if (PV <= (0.2f * (waterScale / 10f)))
 			{
 				return BiomeTypeInfo.BiomesDefinedBlocks[biome][BiomeBlockType.WaterType];
 			}
@@ -323,19 +323,19 @@ namespace Hiscraft.GeneratingTerrain
 		private static BlockType GenerateUnderGroundLayer(int x, int y, int z)
 		{
 			var value = Noise.CalcPixel3D(x, y, z, 0.02f) / 256f;
-			if(value < 0.15f)
+			if (value < 0.15f)
 			{
 				return BlockType.Empty;
 			}
-			value = Noise.CalcPixel3D(x + diamondOffset, y - diamondOffset, z, 0.1f)/256f;
-			
-			if(value > (0.9788f - naturalResources/1000f))
+			value = Noise.CalcPixel3D(x + diamondOffset, y - diamondOffset, z, 0.1f) / 256f;
+
+			if (value > (0.9788f - naturalResources / 1000f))
 			{
 				return BlockType.Diamond;
 			}
 
 			value = Noise.CalcPixel3D(x + goldOffset, y - goldOffset, z, 0.1f) / 256f;
-			if(value > (0.9777f - naturalResources / 1000f))
+			if (value > (0.9777f - naturalResources / 1000f))
 			{
 				return BlockType.Gold;
 			}
@@ -344,7 +344,7 @@ namespace Hiscraft.GeneratingTerrain
 			{
 				return BlockType.Redstone;
 			}
-			value = Noise.CalcPixel3D(x , y , z, 0.05f) / 256f;
+			value = Noise.CalcPixel3D(x, y, z, 0.05f) / 256f;
 			if (value > (0.9267f - naturalResources / 100f))
 			{
 				return BlockType.Coal;
@@ -363,48 +363,70 @@ namespace Hiscraft.GeneratingTerrain
 		/// <returns>Block type for coordinates, calculated with noises.</returns>
 		private static BlockType GenerateEntitiesOnSurface(int x, int y, int z, int terrainHeight, BiomeType biome)
 		{
+			BlockType returnBlockType;
 			if (y - 1 == terrainHeight)
 			{
-				var isTree = GenerateThreeOnSurface(x, z, biome);
-				return isTree != BlockType.Empty ? isTree : GenerateFirstSurfaceBlock(x, z, biome);
+				returnBlockType = GenerateThreeOnSurface(x, z, biome);
+				returnBlockType =  returnBlockType != BlockType.Empty ? returnBlockType : GenerateFirstSurfaceBlock(x, z, biome);
+				if(returnBlockType != BlockType.Empty)
+				{
+					return returnBlockType;
+				}
 			}
 			if (y - 2 == terrainHeight || y - 3 == terrainHeight)
 			{
-				return GenerateThreeOnSurface(x, z, biome);
+				returnBlockType = GenerateThreeOnSurface(x, z, biome);
+				if(returnBlockType != BlockType.Empty)
+				{
+					return returnBlockType;
+				}
 			}
 			if (y - 4 == terrainHeight)
 			{
 
-				var isTree = GenerateThreeOnSurface(x, z, biome);
-				if (isTree != BlockType.Empty)
+				returnBlockType = GenerateThreeOnSurface(x, z, biome);
+				if (returnBlockType != BlockType.Empty)
 				{
 					return BiomeTypeInfo.BiomesDefinedBlocks[biome][BiomeBlockType.TreeType];
-				}
-				isTree = GenerateThreeOnSurface(x + 1, z, biome);
-				if (isTree != BlockType.Empty)
-				{
-					return BiomeTypeInfo.BiomesDefinedBlocks[biome][BiomeBlockType.LeavesType];
-				}
-				isTree = GenerateThreeOnSurface(x - 1, z, biome);
-				if (isTree != BlockType.Empty)
-				{
-					return BiomeTypeInfo.BiomesDefinedBlocks[biome][BiomeBlockType.LeavesType];
-				}
-				isTree = GenerateThreeOnSurface(x, z + 1, biome);
-				if (isTree != BlockType.Empty)
-				{
-					return BiomeTypeInfo.BiomesDefinedBlocks[biome][BiomeBlockType.LeavesType];
-				}
-				isTree = GenerateThreeOnSurface(x, z - 1, biome);
-				if (isTree != BlockType.Empty)
-				{
-					return BiomeTypeInfo.BiomesDefinedBlocks[biome][BiomeBlockType.LeavesType];
 				}
 			}
 			if (y - 5 == terrainHeight)
 			{
-				var isTree = GenerateThreeOnSurface(x, z, biome);
-				if (isTree != BlockType.Empty)
+				returnBlockType = GenerateThreeOnSurface(x, z, biome);
+				if (returnBlockType != BlockType.Empty)
+				{
+					return BiomeTypeInfo.BiomesDefinedBlocks[biome][BiomeBlockType.LeavesType];
+				}
+			}
+
+			returnBlockType = GenerateThreeOnSurface(x + 1, z, biome);
+			if (returnBlockType != BlockType.Empty)
+			{
+				if (y == GenerateTerrainHeight(x + 1, z) + 4)
+				{
+					return BiomeTypeInfo.BiomesDefinedBlocks[biome][BiomeBlockType.LeavesType];
+				}
+			}
+			returnBlockType = GenerateThreeOnSurface(x - 1, z, biome);
+			if (returnBlockType != BlockType.Empty)
+			{
+				if (y == GenerateTerrainHeight(x - 1, z) + 4)
+				{
+					return BiomeTypeInfo.BiomesDefinedBlocks[biome][BiomeBlockType.LeavesType];
+				}
+			}
+			returnBlockType = GenerateThreeOnSurface(x, z + 1, biome);
+			if (returnBlockType != BlockType.Empty)
+			{
+				if (y == GenerateTerrainHeight(x, z + 1) + 4)
+				{
+					return BiomeTypeInfo.BiomesDefinedBlocks[biome][BiomeBlockType.LeavesType];
+				}
+			}
+			returnBlockType = GenerateThreeOnSurface(x, z - 1, biome);
+			if (returnBlockType != BlockType.Empty)
+			{
+				if (y == GenerateTerrainHeight(x, z - 1) + 4)
 				{
 					return BiomeTypeInfo.BiomesDefinedBlocks[biome][BiomeBlockType.LeavesType];
 				}
@@ -445,7 +467,7 @@ namespace Hiscraft.GeneratingTerrain
 			int value = (int)(100 * (Math.Round(Noise.CalcPixel2D(x + entityOffset, z - entityOffset, 0.5f) / 256f, 2)));
 			if (value == 8 && BlockType.Water != GenerateSurface(x, z, biome))
 			{
-					return BiomeTypeInfo.BiomesDefinedBlocks[biome][BiomeBlockType.SpecialBlockType];
+				return BiomeTypeInfo.BiomesDefinedBlocks[biome][BiomeBlockType.SpecialBlockType];
 			}
 			else
 			{
